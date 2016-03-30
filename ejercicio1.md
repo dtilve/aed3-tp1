@@ -16,6 +16,59 @@ Debemos notar que si la cantidad de elementos es potencia de 2, la cantidad de p
         en un cliclo que itera j de 0 a n-1 inclusive:
             para la iteracion i asignamos M(i,j) grupo 1 y dos alternadamente a las posiciones, cambiando de grupo cada 2^i casillas
     imprimo i y luego, la matriz
-3.	.
+3. Cota de complejidad para el algoritmo que proponemos:
+Nota: parte entera superior(log(n))=peslog(n)
+
+Creamos una matriz de peslog(n) columnas y n filas. O(n*peslog(n))
+O(n*peslog(n))
+O(n*peslog(n))
+Algoritmo:
+void kaioKen(int n){
+	int i = 0;
+	int j = 0;
+	int filas = ceil(log2(n));
+	int equipo = 1;
+	int cambio = 0;
+	int x = 0;
+	int m [filas][n];
+	for (int h = 0; h < filas; ++h)
+	{
+		for (int q = 0; q < n; ++q)
+		{
+			m[h][q] = 0;
+		}
+	}
+	
+	while(i < filas){
+		cambio = pow(2,i);
+		x = 0;
+		j = 0;
+		while(j < n){
+			if(x < cambio){
+				m[i][j] = equipo;
+			}else{
+				equipo = ((equipo +1) % 2);
+				m[i][j] = equipo;
+				x = 0;
+			}
+			j++;
+			x++;
+		}
+		i++;
+	}
+	i = 0;
+	j = 0;
+	cout << filas << endl;
+	while(i < filas){
+		j = 0;
+		while(j < n){
+			cout << "B(" << m[i][j]+1 << "," << j+1 << ") ";
+			j ++;
+		}
+		cout << endl;
+		i++;
+	}
+}
+
 4.  .
 5.  .
