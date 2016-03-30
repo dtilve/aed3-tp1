@@ -1,0 +1,9 @@
+Supongamos que tenemos los puntos mostrados en [Ejemplo Inicial Útil] y $T = 1$.
+Primero queremos destruir al objetivo situado en $A$. Miramos el objetivo $B$, que tiene la mayor coordenada $y$ de los que tienen menor coordenada $y$ que $A$ (que son todos dado que se empieza queriendo destruir al objetivo situado en el punto con mayor $y$). En la Figura .. [T=1: Ejemplo área 1] vemos que $A_{y} > B_{y} + T$ y que A no pertenece al área de impacto A(B, 1), o sea que disparar una genkidama al punto B no eliminaría al androide de A. Por transitividad, como $B_{y} > C_{y} > ... > F_{y}$, ninguno de los disparos a los puntos siguientes a B eliminará al objetivo de A, por lo que es necesario disparar una genkidama a A. El área de impacto A(A, T) = A( (1,8), 1) de esta genkidama, sombrada con rojo en la Figura .. [T=1: Ejemplo área 1], incluye al punto B, que además es el de mayor coordenada $x$ de los destruidos por esta gendikama. 
+El siguiente a B, C, es el de mayor coordenada $y$ de los que están vivos, y se repite el proceso que se llevó a cabo con A. En [T=1: Ejemplo área 2] se ve que la segunda gendikama se disparará a D, destruyendo a los objetivos de C, D y E.
+Finalmente queda la situación mostrada en [T=1: Ejemplo área 3] y se dispara una tercera genkidama a F.
+
+Ahora veamos cómo sería este proceso con T = 2.
+De vuelta se comienza queriendo destruir al objetivo en A. Como se ve en la Figura .. [T = 2: Ejemplo área 1], disparar a C no destruye a A pero disparar a B sí. Así, morirán los androides situados en los puntos incluidos en la región sombreada naranja en la Figura .. [T = 2: Ejemplo área 2] (el área de impacto A(B, 2)).
+Finalmente queda la situación mostrada en [T = 2: Ejemplo área 3] en la que el objetivo es destruir al objetivo de E y se terminará disparando a F eliminando a los dos androides restantes.
+En este caso se habrá destruido a todos los androides utilizando dos genkidamas.  
