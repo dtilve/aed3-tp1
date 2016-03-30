@@ -19,9 +19,11 @@ Debemos notar que si la cantidad de elementos es potencia de 2, la cantidad de p
 3. Cota de complejidad para el algoritmo que proponemos:
 Nota: parte entera superior(log(n))=peslog(n)
 
-Creamos una matriz de peslog(n) columnas y n filas. O(n*peslog(n))
-O(n*peslog(n))
-O(n*peslog(n))
+-Creamos una matriz de peslog(n) columnas y n filas. O(n*peslog(n)) 
+-Le asignamos 0 a cada posicion. O(n*peslog(n)) 
+-Le asignamos grupo 1 y 2 alternadamente a los guerreros, en casa pelea, que esta representada por una fila en nuestra matriz. O(n*peslog(n))
+-Por lo tanto, el algoritmo es O(3*n*peslog(n)). Como 3 es una constante, la ocmplejidad final es O(n*peslog(n)).
+
 Algoritmo:
 void kaioKen(int n){
 	int i = 0;
