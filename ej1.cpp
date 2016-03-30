@@ -1,11 +1,13 @@
-#include <math.h> 
+#include <math.h>
+#include <stdlib.h> 
 #include <iostream>
 using namespace std;
 
 void kaioKen(int n);
 
-int main(){
-	kaioKen(11);
+int main(int argc, char* argv[]){
+	int stdin =	atoi(argv[1]);
+	kaioKen(stdin);
 	return 0;	
 }
 
