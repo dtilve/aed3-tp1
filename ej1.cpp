@@ -1,5 +1,5 @@
 #include <math.h>
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <iostream>
 using namespace std;
 
@@ -8,7 +8,7 @@ void kaioKen(int n);
 int main(int argc, char* argv[]){
 	int stdin =	atoi(argv[1]);
 	kaioKen(stdin);
-	return 0;	
+	return 0;
 }
 
 void kaioKen(int n){
@@ -48,8 +48,11 @@ void kaioKen(int n){
 	while(i < filas){
 		j = 0;
 		while(j < n){
-			cout << m[i][j]+1 << " ";
+			cout << m[i][j]+1;
 			j ++;
+			if (j < n) {
+				std::cout << " ";
+			}
 		}
 		cout << endl;
 		i++;
