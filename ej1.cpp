@@ -26,7 +26,6 @@ void kaioKen(int n){
 			m[h][q] = 0;
 		}
 	}
-	
 	while(i < filas){
 		cambio = pow(2,i);
 		x = 0;
@@ -45,12 +44,11 @@ void kaioKen(int n){
 		i++;
 	}
 	i = 0;
-	j = 0;
 	cout << filas << endl;
 	while(i < filas){
 		j = 0;
 		while(j < n){
-			cout << "B(" << m[i][j]+1 << "," << j+1 << ") ";
+			cout << m[i][j]+1 << " ";
 			j ++;
 		}
 		cout << endl;
