@@ -6,8 +6,10 @@ using namespace std;
 	void kaioKen(int n);
 
 int main(int argc, char* argv[]){
+	cerr << 11<<endl;
 	int i;
 	cin >> i;
+	cerr << 22 <<endl;
 	kaioKen(i);
 	return 0;
 }
