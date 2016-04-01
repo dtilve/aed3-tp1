@@ -29,3 +29,8 @@ las ideas desarrolladas para la resolución del problema. Palabras.
 5. Realizar una experimentación computacional. preparar un conjunto de casos de test: con instancias aleatorias 
 (detallando cómo fueron generadas) y con instancias particulares (peor/mejor). Se debe presentar adecuadamente en forma gráfica.
 
+1. a 
+2. a
+3. a
+4. a
+5. a
