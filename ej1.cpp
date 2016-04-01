@@ -3,15 +3,17 @@
 #include <iostream>
 using namespace std;
 
-void kaioKen(int n);
+	void kaioKen(int n);
 
 int main(int argc, char* argv[]){
-	int stdin =	atoi(argv[1]);
-	kaioKen(stdin);
+	int i;
+	cin >> i;
+	kaioKen(i);
 	return 0;
 }
 
 void kaioKen(int n){
+	std::cerr << "Entra a la funcion?" << std::endl;
 	int i = 0;
 	int j = 0;
 	int filas = ceil(log2(n));
