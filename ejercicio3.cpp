@@ -33,21 +33,19 @@ int main() {
   }
   cout << "Cantidad de enemigos: " << enemigos_global << endl;
   Kamehameha(enemigos, enLaMira, 0);
-  cout << "La cantidad de Kamehamehas óptima es " << minimo_global << endl;
   return 0;
 }
 
 void Kamehameha(list<pair <int, int> > enemigos, vector<vector<pair<int,int> > > enLaMira, int indexRectaActual) {
-  if (enemigos.size() < enemigos_global) {
+cout << "La cantidad de enemigos ingresados es " << enemigos.size() << endl;
+  if (enemigos.size() > 0) {
     // si quedan androides por meter en la mira tomo el primero y lo saco de los enemigos esperando ubicación
     pair <int, int> androide = enemigos.front();
     enemigos.pop_front();
 
-    // tomo la recta actual
-    vector <pair <int ,int> > rectaActual = enLaMira[indexRectaActual];
-
     // quiero ver las configuraciones con esta recta como está (mientras no esté vacía),
-    if (rectaActual.size() != 0){
+    if (enLaMira[indexRectaActual].size() != 0){
+    cout << "La recta no esta vacia" << endl;
       // entonces "cierro" la que estoy haciendo, creando una nueva
       vector <pair <int ,int> > nuevaRecta;
       vector<vector<pair<int,int> > > nuevaMira = enLaMira;
@@ -56,18 +54,21 @@ void Kamehameha(list<pair <int, int> > enemigos, vector<vector<pair<int,int> > >
       // con el indice apuntando a la nueva recta
       for (int i = 1; i < enemigos.size(); i++) {
         Kamehameha(enemigos, nuevaMira, indexRectaActual++);
+        cout << "Llamado iterativo"<< endl;
       }
     }
 
     // por otro lado intento ubicar al nuevo blanco en la recta actual
-    if (rectaActual.size() > 2) {
+    if (enLaMira[indexRectaActual].size() > 2) {
       // si la recta actual tiene mas de dos enemigos hay que ver si es que están en la misma recta
-      if (compartenUnaRecta(rectaActual[0], rectaActual[1], androide)) {
+      if (compartenUnaRecta(enLaMira[indexRectaActual][0], enLaMira[indexRectaActual][1], androide)) {
+        cout << "Coiciden en la recta" << endl;
         // si puede entrar en el Kamehameha entonces lo incluyo, y hago recursion sobre el resto de los enemigos
         // con la recta actual siendo el mismo kamehameha
-        rectaActual.push_back(androide);
+        enLaMira[indexRectaActual].push_back(androide);
         Kamehameha(enemigos, enLaMira, indexRectaActual);
       } else {
+        cout << "Descarto solución" << endl;
         // sino no hago nada, descartando tal solucion
         return;
       }
@@ -75,17 +76,21 @@ void Kamehameha(list<pair <int, int> > enemigos, vector<vector<pair<int,int> > >
       // si la recta actual no tiene más de dos enemigos, entonces tiene 0 o 1 y como una recta se hace entre dos puntos
       // puedo incluirlo alegremente y llamar a recursion con los enemigos restantes con la recta Actual siendo el mismo
       // Kamehameha
-      rectaActual.push_back(androide);
+      cout << "agrego androide puesto que no tiene más de dos enemigos" << endl;
+      enLaMira[indexRectaActual].push_back(androide);
       Kamehameha(enemigos, enLaMira, indexRectaActual);
     }
   } else {
+    cout << "Enemigos agotados" << endl;
     // si ya agoté los enemigos es porque conseguí todas las configuraciones necesarias para los kamehamehas
     // solo queda ver si la nueva solución es mejor que la que alguna vez encontré y updatearla
     int kamehamehas = enLaMira.size();
+    cout << "Modifico minimo global de valor " << minimo_global << " a " << kamehamehas << endl;
     if (kamehamehas < minimo_global){
       minimo_global = kamehamehas;
     }
   }
+  cout << "La cantidad de Kamehameas optima es " << minimo_global << endl;
 }
 
 bool compartenUnaRecta (pair <int, int> primero, pair <int, int> segundo, pair <int, int> tercero) {
