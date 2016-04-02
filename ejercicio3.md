@@ -39,7 +39,7 @@ bactracking(p,s,min){
 la complejidad de esto es algo asi, me dijo julian -algo no me cierra- :
 h(0,#s)=#s
 hojas(es,s) = hojas(es-1,#s) + hojas(es-1,#s+1)
-            = hojas(es-1,#s) + 1
+            = hojas(es-1,#s) + 1 //para mi......
 
 
 Problema 3: Kamehameha
