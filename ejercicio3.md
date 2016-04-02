@@ -29,6 +29,7 @@ bactracking(p,s,min){
     }else{
         while(s != vacio()){
             sol = #bactracking(sinUno(p),sinUno(s) union dameUno(s):dameUno(p) ,min)
+            s=sinUnos(s)
             if(sol < min){
                 min = sol
             }
