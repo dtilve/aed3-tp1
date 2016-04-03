@@ -19,8 +19,16 @@ int enemigos_global;
 void Kamehameha(listaPos_t enemigos,
                 Kamehamehas_t enLaMira,
                 int indexRectaActual);
-
-bool compartenUnaRecta (posicion_t E1, posicion_t E2, posicion_t E3);
+void atacarEnAtaqueActual(posicion_t enemigo,
+                          listaPos_t restoEnemigos,
+                          Kamehamehas_t ataques,
+                          int nroAtaque);
+void atacarEnNuevoAtaque(posicion_t enemigo,
+                         listaPos_t restoEnemigos,
+                         Kamehamehas_t ataques,
+                         int nroAtaque);
+bool alineados (Kamehameha_t atacados, posicion_t enemigo);
+void reporte(listaPos_t enemigos, Kamehamehas_t ataques, int nroAtaque);
 
 int main() {
     cin >> enemigos_global;
@@ -32,14 +40,14 @@ int main() {
 	posicion_t posicion;
     srand(time(NULL));
     for (int i = 0; i < enemigos_global; i++) {
-        int x = rand() %5;
-        int y = rand() %5;
+        int x = rand() %10;
+        int y = rand() %10;
     	posicion = make_pair(x, y);
     	enemigos.push_back((posicion));
     }
     //Para imprimir las tuplas generadas al azar:
     for (listaPos_t::iterator it = enemigos.begin(); it != enemigos.end(); ++it) {
-        cout << "(" << (*it).first << ", " << (*it).second << ")" << endl;
+        cout << (*it).first << ", " << (*it).second << endl;
     }
     cout << "Cantidad de enemigos: " << enemigos_global << endl;
     Kamehameha(enemigos, enLaMira, 0);
@@ -47,83 +55,83 @@ int main() {
     return 0;
 }
 
-void Kamehameha(listaPos_t enemigos, Kamehamehas_t enLaMira, int indexRectaActual) {
-    cout << "La cantidad de enemigos que quedan es " << enemigos.size() << endl;
-    if (enemigos.size() <= 0) {
-        cout << "Enemigos agotados" << endl;
-        // si ya agoté los enemigos es porque conseguí todas las configuraciones necesarias para los kamehamehas
-        // solo queda ver si la nueva solución es mejor que la que alguna vez encontré y updatearla
-        cout << "(índice actual - 1) = " << indexRectaActual-1
-             << " el mínimo actual es " << enLaMira.size() << endl;
-        minimo_global = min(minimo_global, (int)enLaMira.size());
+void Kamehameha(listaPos_t enemigos, Kamehamehas_t ataques, int nroAtaque) {
+    if (enemigos.size() == 0) {
+        minimo_global = min(minimo_global, (int)ataques.size());
+        reporte(enemigos, ataques, nroAtaque);
+        //mejor_configuracion =  ataques;
     } else {
-        // si quedan androides por meter en la mira tomo el primero y lo saco de los enemigos esperando ubicación
-        posicion_t androide = enemigos.front();
-
-        // por otro lado quiero ver las configuraciones con esta recta como está (mientras no esté vacía),
-        if (enLaMira[indexRectaActual].size() != 0){
-            cout << "La recta no esta vacia" << endl;
-            // entonces "cierro" la que estoy haciendo, creando una nueva
-            Kamehameha_t nuevoKamehameha;
-            Kamehamehas_t nuevaMira = enLaMira;
-            nuevaMira.push_back(nuevoKamehameha);
-            // y lanzo una recursión sobre el resto de los enemigos con esta nueva configuración
-            // con el indice apuntando a la nueva recta
-            for (int i = 1; i < enemigos.size(); i++) {
-                cout << "Llamado iterativo con la nueva mira" << endl;
-                listaPos_t nuevosEnemigos = enemigos;
-                nuevosEnemigos.pop_front();
-                int indexRectaActual2 = indexRectaActual++;
-                Kamehameha(nuevosEnemigos, nuevaMira, indexRectaActual2);
-                cout << "Fin de llamado iterativo con la nueva mira" << endl;
-            }
-        }
-
-        // intento ubicar al nuevo blanco en la recta actual
-        if (enLaMira[indexRectaActual].size() > 2) {
-            cout << "En la recta actual hay más de dos enemigos" << endl;
-            // si la recta actual tiene mas de dos enemigos hay que ver si es que están en la misma recta
-            posicion_t blanco1 = enLaMira[indexRectaActual].front();
-            posicion_t blanco2 = enLaMira[indexRectaActual].back();
-            if (compartenUnaRecta(blanco1, blanco2, androide)) {
-                cout << "Coiciden en la recta" << endl;
-                // si puede entrar en el Kamehameha entonces lo incluyo, y hago recursion sobre el resto de los enemigos
-                // con la recta actual siendo el mismo kamehameha
-                enLaMira[indexRectaActual].push_back(androide);
-                cout << "agrego el androide a la recta actual y llamo a recursión sobre el mismo kamehameha" << endl;
-                cout << "Llamado iterativo sobre el mismo kamehameha"<< endl;
-                Kamehamehas_t copiaEnLaMira = enLaMira;
-                listaPos_t nuevosEnemigos = enemigos;
-                nuevosEnemigos.pop_front();
-                cout << &enLaMira << " " << &copiaEnLaMira << endl;
-                Kamehameha(nuevosEnemigos, copiaEnLaMira, indexRectaActual);
-                cout << "Fin de llamado iterativo sobre el mismo kamehameha" << endl;
-            } else {
-                cout << "Descarto solución" << endl;
-                // sino no hago nada, descartando tal solucion
-                return;
-            }
-        } else {
-            // si la recta actual no tiene más de dos enemigos, entonces tiene 1 y como una recta se hace entre dos puntos
-            // puedo incluirlo alegremente y llamar a recursion con los enemigos restantes con la recta Actual siendo el mismo
-            // Kamehameha
-            cout << "agrego androide puesto que no tiene más de dos enemigos" << endl;
-            cout << androide.first << " " << androide.second << endl;
-            Kamehamehas_t copiaEnLaMira = enLaMira;
-            copiaEnLaMira[indexRectaActual].push_back(androide);
-            listaPos_t nuevosEnemigos = enemigos;
-            nuevosEnemigos.pop_front();
-            cout << "Llamado iterativo con el nuevo androide en el mismo Kamehameha"<< endl;
-            Kamehameha(nuevosEnemigos, copiaEnLaMira, indexRectaActual);
-            cout << "Fin de llamado iterativo con el nuevo androide en el mismo Kamehameha" << endl;
+        for (int i = 0; i < enemigos.size(); i++) {
+            posicion_t enemigo = enemigos.front();
+            enemigos.pop_front();
+            atacarEnAtaqueActual(enemigo, enemigos, ataques, nroAtaque);
+            atacarEnNuevoAtaque(enemigo, enemigos, ataques, nroAtaque);
+            enemigos.push_front(enemigo);
         }
     }
 }
 
-bool compartenUnaRecta (posicion_t primero, posicion_t segundo, posicion_t tercero) {
-    int termino1 = segundo.second - primero.second;
-    int termino2 = tercero.first - primero.first;
-    int termino3 = tercero.second - primero.second;
-    int termino4 = segundo.first - primero.first;
-    return termino1*termino2 == termino3*termino4;
+void atacarEnAtaqueActual(posicion_t enemigo, listaPos_t restoEnemigos, Kamehamehas_t ataques, int nroAtaque) {
+    Kamehameha_t atacados = ataques[nroAtaque];
+    if (atacados.size() == 0){
+        Kamehameha_t comenzarAtaque;
+        comenzarAtaque.push_back(enemigo);
+        ataques[nroAtaque] = comenzarAtaque;
+        Kamehameha(restoEnemigos, ataques, nroAtaque);
+        Kamehameha_t reestablecerAtaque;
+        ataques[nroAtaque] = reestablecerAtaque;
+    } else if (alineados(atacados, enemigo)) {
+        ataques[nroAtaque].push_back(enemigo);
+        Kamehameha(restoEnemigos, ataques, nroAtaque);
+        ataques[nroAtaque].pop_back();
+    } else {
+        return;
+    }
+}
+
+void atacarEnNuevoAtaque(posicion_t enemigo, listaPos_t restoEnemigos, Kamehamehas_t ataques, int nroAtaque) {
+    if (ataques[nroAtaque].size() > 0) {
+        Kamehameha_t comenzarAtaque;
+        comenzarAtaque.push_back(enemigo);
+        ataques.push_back(comenzarAtaque);
+        nroAtaque++;
+        Kamehameha(restoEnemigos, ataques, nroAtaque);
+        nroAtaque--;
+        ataques.pop_back();
+    }
+}
+
+bool alineados (Kamehameha_t atacados, posicion_t enemigo) {
+    if (atacados.size() == 0 || atacados.size() == 1) {
+        return true;
+    } else {
+        posicion_t primero = atacados[0];
+        posicion_t segundo = atacados[1];
+        int termino1 = segundo.second - primero.second;
+        int termino2 = enemigo.first - primero.first;
+        int termino3 = enemigo.second - primero.second;
+        int termino4 = segundo.first - primero.first;
+        return termino1*termino2 == termino3*termino4;
+    }
+}
+
+void reporte(listaPos_t enemigos, Kamehamehas_t ataques, int nroAtaque) {
+    cout << "enemigos: ";
+    for (listaPos_t::iterator itL = enemigos.begin(); itL != enemigos.end(); ++itL) {
+        cout << "(" << (*itL).first << ", " << (*itL).second << ")";
+        if (itL!= enemigos.end()) {
+            cout << ", ";
+        }
+    }
+    cout << endl ;
+    for (int i = 0; i < ataques.size(); i++) {
+        Kamehameha_t ataqueEnIdx = ataques[i];
+        cout << "[";
+        for (Kamehameha_t::iterator it = ataqueEnIdx.begin(); it != ataqueEnIdx.end(); ++it) {
+            cout << "(" << (*it).first << ", " << (*it).second << "), ";
+            if (it!= ataqueEnIdx.end()){ cout << ", "; };
+        }
+        cout << "]" << endl;
+    }
+
 }
