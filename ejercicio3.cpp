@@ -1,5 +1,5 @@
 #include <iostream>
-#include <list>
+#include <deque>
 #include <utility>
 #include <vector>
 #include <stdlib.h>
@@ -11,10 +11,11 @@ using namespace std;
 typedef pair<int,int> posicion_t;
 typedef vector<posicion_t> Kamehameha_t;
 typedef vector<Kamehameha_t> Kamehamehas_t;
-typedef list<posicion_t> listaPos_t;
+typedef deque<posicion_t> listaPos_t;
 
 int minimo_global = std::numeric_limits<int>::max();
-int enemigos_global;
+listaPos_t enemigos_global;
+Kamehamehas_t mejor_configuracion;
 
 void Kamehameha(listaPos_t enemigos,
                 Kamehamehas_t enLaMira,
@@ -29,9 +30,12 @@ void atacarEnNuevoAtaque(posicion_t enemigo,
                          int nroAtaque);
 bool alineados (Kamehameha_t atacados, posicion_t enemigo);
 void reporte(listaPos_t enemigos, Kamehamehas_t ataques, int nroAtaque);
+int buscarPosicion(const posicion_t& enemigo);
+void mostrarSolucion();
 
 int main() {
-    cin >> enemigos_global;
+    int cantEnemigos;
+    cin >> cantEnemigos;
     listaPos_t enemigos;
     Kamehamehas_t enLaMira;
     Kamehameha_t kamehameha;
@@ -39,27 +43,28 @@ int main() {
     int indexRectaActual;
 	posicion_t posicion;
     srand(time(NULL));
-    for (int i = 0; i < enemigos_global; i++) {
+    for (int i = 0; i < cantEnemigos; i++) {
         int x = rand() %10;
         int y = rand() %10;
     	posicion = make_pair(x, y);
     	enemigos.push_back((posicion));
     }
     //Para imprimir las tuplas generadas al azar:
-    for (listaPos_t::iterator it = enemigos.begin(); it != enemigos.end(); ++it) {
-        cout << (*it).first << ", " << (*it).second << endl;
-    }
-    cout << "Cantidad de enemigos: " << enemigos_global << endl;
+    enemigos_global = enemigos;
+    // for (listaPos_t::iterator it = enemigos.begin(); it != enemigos.end(); ++it) {
+    //     cout << (*it).first << ", " << (*it).second << endl;
+    // }
     Kamehameha(enemigos, enLaMira, 0);
-    cout << "La cantidad de Kamehameas optima es " << minimo_global << endl;
+    mostrarSolucion();
     return 0;
 }
 
 void Kamehameha(listaPos_t enemigos, Kamehamehas_t ataques, int nroAtaque) {
     if (enemigos.size() == 0) {
-        minimo_global = min(minimo_global, (int)ataques.size());
-        reporte(enemigos, ataques, nroAtaque);
-        //mejor_configuracion =  ataques;
+        if (minimo_global > (int)ataques.size()) {
+            minimo_global = (int) ataques.size();
+            mejor_configuracion = ataques;
+        }
     } else {
         for (int i = 0; i < enemigos.size(); i++) {
             posicion_t enemigo = enemigos.front();
@@ -133,5 +138,21 @@ void reporte(listaPos_t enemigos, Kamehamehas_t ataques, int nroAtaque) {
         }
         cout << "]" << endl;
     }
+}
 
+void mostrarSolucion() {
+    cout << mejor_configuracion.size() << endl;
+    for (int i = 0; i < mejor_configuracion.size(); i++) {
+        Kamehameha_t ataqueEnIdx = mejor_configuracion[i];
+        cout << ataqueEnIdx.size() << " ";
+        for (Kamehameha_t::iterator it = ataqueEnIdx.begin(); it != ataqueEnIdx.end(); ++it) {
+            cout << buscarPosicion(*it) << " ";
+        }
+        cout << endl;
+    }
+}
+
+int buscarPosicion(const posicion_t& enemigo) {
+    listaPos_t::iterator it = find (enemigos_global.begin(), enemigos_global.end(), enemigo);
+    return distance(enemigos_global.begin(), it);
 }
