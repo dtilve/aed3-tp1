@@ -27,9 +27,8 @@
   tabsize=3
 }
 
-\subtitle{Ejercicio 3}
+\subtitle{Ejercicio 1:Kaio Ken}
 
-:Kaio Ken
 \subsection{Descripcion del problema}
 
 \begin{verbatim}
@@ -79,6 +78,49 @@ while(i < filas){
 	i++;
 }
 \end{lstlisting}
+
 \subsection{}
 
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
+/// lo dejo aca un poco
+
+\paragraph{ Idea: cada vez que se resuelve una pelea entre grupos, si la misma se da entre dos mitades, ya se consigue que la mitad de los luchadores hayan peleado entre si, quedando pendiente dentro del mismo grupo.}
+
+\begin{verbatim}
+p <- 1
+
+kaioKen (N: int){
+	kaioKenGeneralizada(N,1)
+}
+
+kaioKenGeneralizada (N: int, P: int) {
+	for (N)
+		B (P, N)
+	endfor
+	p += 1
+	if (N != 1 v 2)		
+		kaioKenGeneralizada(ceil(n/2), p)
+		kaioKenGeneralizada(floor(n/2), p)
+	endif	
+}
+\end{verbatim}
+
+
+
+
+
+
+
+
+
