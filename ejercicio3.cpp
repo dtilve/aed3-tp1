@@ -51,9 +51,9 @@ int main() {
     }
     //Para imprimir las tuplas generadas al azar:
     enemigos_global = enemigos;
-    // for (listaPos_t::iterator it = enemigos.begin(); it != enemigos.end(); ++it) {
-    //     cout << (*it).first << ", " << (*it).second << endl;
-    // }
+    for (listaPos_t::iterator it = enemigos.begin(); it != enemigos.end(); ++it) {
+            cout << (*it).first << " " << (*it).second << endl;
+    }
     Kamehameha(enemigos, enLaMira, 0);
     mostrarSolucion();
     return 0;
@@ -146,7 +146,7 @@ void mostrarSolucion() {
         Kamehameha_t ataqueEnIdx = mejor_configuracion[i];
         cout << ataqueEnIdx.size() << " ";
         for (Kamehameha_t::iterator it = ataqueEnIdx.begin(); it != ataqueEnIdx.end(); ++it) {
-            cout << buscarPosicion(*it) << " ";
+            cout << (buscarPosicion(*it)+1) << " ";
         }
         cout << endl;
     }
