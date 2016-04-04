@@ -46,10 +46,10 @@ int indiceDeMayorXQueMata(int t, int indiceDeObjetivo, vector<tuple<int,int>> e)
 	return i;
 }
 
-void destruir(int t, int indiceDeObjetivo, vector<tuple<int,int>> e, int genkidamas, int indicePorArea){
+/*void destruir(int t, int indiceDeObjetivo, vector<tuple<int,int>> e, int genkidamas, int indicePorArea){
 	indicePorArea = indiceDeMayorXQueMata(t, indiceDeObjetivo, e) - 1;
 	genkidamas++;
-}
+}*/
 
 
 // MODULARIZADO
@@ -67,17 +67,19 @@ void genkidama(int t, int n, vector<tuple<int,int>> e){
 		// el +1 de arriba surge de que en el enunciado se enumeran desde el 1 y
 		// nosotros enumeramos desde 0
 		hayAlgunoVivo = !(indiceDeMayorXQueMata(t, indiceDeObjetivo, e) == 0);
-		destruir(t, indiceDeObjetivo, e, genkidamasUtilizadas, indiceDeObjetivoPorArea);
+		indiceDeObjetivoPorArea = indiceDeMayorXQueMata(t, indiceDeObjetivo, e) - 1;
+		genkidamasUtilizadas++;
+		//destruir(t, indiceDeObjetivo, e, genkidamasUtilizadas, indiceDeObjetivoPorArea);
 	}
-		std::cout << genkidamasUtilizadas << std::endl;
-		int h = 0;
-		while (h < genkidamasUtilizadas) {
-				std::cout << atacados[h];
-				h++;
-				if (h < genkidamasUtilizadas) {
-						std::cout << " ";
-				}
-		}
+	std::cout << genkidamasUtilizadas << std::endl;
+	int h = 0;
+	while (h < genkidamasUtilizadas) {
+			std::cout << atacados[h];
+			h++;
+			if (h < genkidamasUtilizadas) {
+					std::cout << " ";
+			}
+	}
 }
 
 
