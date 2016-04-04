@@ -33,7 +33,10 @@
 \begin{verbatim}
 El problema a resolver es el siguiente:
 Tenemos un secuencia de puntos (x,y) en el espacio para los cuales, si la coordenada x de un punto es mayor a la de otro punto, la coordenada en y del segundo punto es menor. Dado un valor T, se desea calcular la minima cantidad de gendikamas a tirar para destruir a todos los puntos. Si se tira a un punto (x0,y0), al gendikama alcanza a destruir a todos los puntos que posean x<=x0+t y posean y<=y0+t.
+\end{verbatim}
 
+\subsection{Pseudocódigo}
+\begin{verbatim}
 Para resolverel problema:
 Definamos el área de impacto $ A: \mathbb{{N_{0}}^2 ~x~ N} \rightarrow \mathbb{Z^2}$ como $A(P,T) = \{ (x, y) \in \mathbb{Z^2} : 0 \leq x \leq P_{x}+T ~ \wedge 0 \leq y \leq P_{y}+T \}$, es decir, el conjunto de puntos del plano en los que en caso de haber androides estos morirían por la Gendikama tirada en P. Con esta idea de área de impacto se puede pensar que no aporta tener en cuenta el área por sobre el objetivo vivo de mayor coordenada en $y.$
 Va a haber que eliminar al objetivo situado en $A$. Se puede tirar una Gendikama al punto A, pero surge la pregunta de si se podría hacer algo mejor. ¿Qué pasa si se dispara a $B$? Si $ A_{y} \leq B_{y}+T$ entonces el área de impacto $A(B,T)$ incluye al punto $A$. Así, sería mejor disparar la Gendikama a $B$ que a $A$ dado que como $ A_{x} < B_{x}$ entonces $ A_{x}+T < B_{x}+T$, lo que nos da una idea intuitiva de inclusión de áreas, $A(A,T) \subset A(B,T)$ (nótese que la inclusión es estricta) y podemos decir que diparar a B es más destructivo.
@@ -56,12 +59,9 @@ Finalmente queda la situación mostrada en [T = 2: Ejemplo área 3] en la que el
 En este caso se habrá destruido a todos los androides utilizando dos genkidamas.
 \end{verbatim}
 
-\subsection{Pseudocódigo}
-\begin{verbatim}
-\end{verbatim}
-
 \subsection{Cota de complejidad}
 \begin{verbatim}
+
 \end{verbatim}
 
 \subsection{Extracto importante de código}
