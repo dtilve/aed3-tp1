@@ -7,7 +7,7 @@ using namespace std;
 void genkidama(int, int, vector<tuple<int, int>>);
 int indiceDeMenorYQueLoMata(int, int, vector<tuple<int,int>>);
 int indiceDeMayorXQueMata(int, int, vector<tuple<int,int>>);
-void destruir();
+//void destruir();
 
 int main(){
 	int t;
@@ -80,6 +80,7 @@ void genkidama(int t, int n, vector<tuple<int,int>> e){
 					std::cout << " ";
 			}
 	}
+	std::cout << std::endl;
 }
 
 
