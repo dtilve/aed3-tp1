@@ -1,11 +1,12 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage[utf8]{inputenc} % para poder usar tildes en archivos UTF-8
 \usepackage[spanish]{babel} % para que comandos como \today den el resultado en castellano
-\usepackage{a4wide} % márgenes un poco más anchos que lo usual
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath}
 \usepackage{listings}
 \usepackage{color}
 \usepackage{algorithm}
-\usepackage[noend]{algpseudocode}
+\usepackage{algpseudocode}
 
 
 \begin{document}
@@ -53,74 +54,85 @@ Imprimimos i. Luego, imprimimos la matriz.
 \begin{algorithm}
 \caption{inicializarMatriz}
 \begin{algorithmic}
-  \Procedure{$i$InicializarMatriz}{\In{filas}{int}, \In{columnas}{int}, \Inout{matriz}{int} }
-	\For{h \leftarrow 0~..~filas-1} \Comment $\mathcal{O}(filas)$
-		\For{q \leftarrow 0~..~columnas-1} \Comment $\mathcal{O}(columnas)$
-		\State matriz[h][q] = 0; \Comment $\mathcal{O}(1)$
+  \Function{InicializarMatriz}{filas: int, columnas: int, matriz: $Arreglo<Arreglo<int>>$}
+	\For{$h \leftarrow 0~..~filas-1$} \Comment $\mathcal{O}(filas)$
+		\For{$q \leftarrow 0~..~columnas-1$} \Comment $\mathcal{O}(columnas)$
+		\State matriz[h][q] = 0 \Comment $\mathcal{O}(1)$
 		\EndFor
 	\EndFor
 
-\EndProcedure
+\EndFunction
 \end{algorithmic}
 \underline{Complejidad:} $\mathcal{O}(filas*columnas)$\\
     \underline{Justificación:} Hay dos ciclos anidados.
 \end{algorithm}
 
-$
 
-void distribuirGuerreros(int filas, int n, int m[][]){
-	int i = 0;
-	int j;
-	int cambio = 0;
-	int equipo = 1;
-	int x = 0;
-	while(i < filas){
-		cambio = pow(2,i);
-		x = 0;
-		j = 0;
-		while(j < n){
-			if(x < cambio){
-				m[i][j] = equipo;
-			}else{
-				equipo = ((equipo +1) % 2);
-				m[i][j] = equipo;
-				x = 0;
-			}
-			j++;
-			x++;
-		}
-		i++;
-	}
-}
+\begin{algorithm}
+\caption{distribuirGuerreros}
+\begin{algorithmic}
+  \Function{DistribuirGuerreros}{filas: int, columnas: int, matriz: $Arreglo<Arreglo<int>>$ }
+	\State int $i \gets 0$;
+	\State int j;	
+	\State int $cambio \gets 0$;
+	\State int $equipo \gets 1$;
+	\State int $x \gets 0$;
+	\While{$i < filas$}
+		\State $cambio \gets pow(2,i)$;
+		\State $x \gets 0$;
+		\State $j \gets 0$;
+		\While{$j < columnas$}
+			\If{$x < cambio$}
+				\State $matriz[i][j] \gets equipo$;
+			\Else
+				\State $equipo \gets ((equipo +1) mod 2)$;
+				\State $matriz[i][j] \gets equipo$;
+				\State $x \gets 0$;
+			\EndIf
+			\State $j++$;
+			\State $x++$;
+		\EndWhile
+		\State $i++$;
+	\EndWhile
+\EndFunction
+\end{algorithmic}
+\underline{Complejidad:} $\mathcal{O}(filas*columnas)$\\
+    \underline{Justificación:} 
+\end{algorithm}
 
-void kaioKen(int n){
-	std::cerr << "Entra a la funcion?" << std::endl;
 
-	int filas = ceil(log2(n));
-	int m[filas][n];
+\begin{algorithm}
+\caption{KaioKen}
+\begin{algorithmic}
+  \Function{Kaioken}{n: int}
+	\State int $filas \gets ceil(log2(n))$;
+	\State int m[filas][n];
+	\State inicializarMatriz(filas, n, m);
+	\State distribuirGuerreros(filas, n, m);
+	\\
+	\State int $i \gets 0$;
+	\State int j;
+	\\
+	\State $cout << filas << endl$;
+	\While{$i < filas$}
+		\State $j \gets 0$;
+		\While{$j < n$}
+			\State $cout << m[i][j]+1$;
+			\State $j++$;
+			\If{$j < n$}
+				\State $std::cout << " "$;
+			\EndIf
+		\EndWhile
+		\State $cout << endl$;
+		\State $i++$;
+	\EndWhile
+\EndFunction
+\end{algorithmic}
+\underline{Complejidad:} $\mathcal{O}(\log _{2} n * n)$\\
+    \underline{Justificación:} 
+\end{algorithm}
 
-	inicializarMatriz(filas, n, m[][]);
-	distribuirGuerreros(filas, n, m[][]);
 
-	int i = 0;
-	int j;
-	cout << filas << endl;
-	while(i < filas){
-		j = 0;
-		while(j < n){
-			cout << m[i][j]+1;
-			j ++;
-			if (j < n) {
-				std::cout << " ";
-			}
-		}
-		cout << endl;
-		i++;
-	}
-}
-
-\end{lstlisting}
-$
 
 \subsection{Cota de complejidad}
 \begin{verbatim}
