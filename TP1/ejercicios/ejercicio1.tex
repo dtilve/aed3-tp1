@@ -4,6 +4,9 @@
 \usepackage{a4wide} % márgenes un poco más anchos que lo usual
 \usepackage{listings}
 \usepackage{color}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
 
 \begin{document}
 
@@ -42,10 +45,82 @@
 Datos de entrada: n.
 Generamos una matriz M de n * (log(n)+1) posiciones.
 En un ciclo que itera i de 0 a log(n) inclusive:
-	En un cliclo que itera j de 0 a n-1 inclusive:
+	En un ciclo que itera j de 0 a n-1 inclusive:
 		Para la iteracion i asignamos M(i,j) grupo 1 y dos alternadamente a las posiciones, cambiando de grupo cada 2^i casillas.
 Imprimimos i. Luego, imprimimos la matriz.
 \end{verbatim}
+
+\begin{algorithm}
+\caption{inicializarMatriz}
+\begin{algorithmic}
+  \Procedure{$i$InicializarMatriz}{\In{filas}{int}, \In{columnas}{int}, \Inout{matriz}{int} }
+	\For{h \leftarrow 0~..~filas-1} \Comment $\mathcal{O}(filas)$
+		\For{q \leftarrow 0~..~columnas-1} \Comment $\mathcal{O}(columnas)$
+		\State matriz[h][q] = 0; \Comment $\mathcal{O}(1)$
+		\EndFor
+	\EndFor
+
+\EndProcedure
+\end{algorithmic}
+\underline{Complejidad:} $\mathcal{O}(filas*columnas)$\\
+    \underline{Justificación:} Hay dos ciclos anidados.
+\end{algorithm}
+
+$
+
+void distribuirGuerreros(int filas, int n, int m[][]){
+	int i = 0;
+	int j;
+	int cambio = 0;
+	int equipo = 1;
+	int x = 0;
+	while(i < filas){
+		cambio = pow(2,i);
+		x = 0;
+		j = 0;
+		while(j < n){
+			if(x < cambio){
+				m[i][j] = equipo;
+			}else{
+				equipo = ((equipo +1) % 2);
+				m[i][j] = equipo;
+				x = 0;
+			}
+			j++;
+			x++;
+		}
+		i++;
+	}
+}
+
+void kaioKen(int n){
+	std::cerr << "Entra a la funcion?" << std::endl;
+
+	int filas = ceil(log2(n));
+	int m[filas][n];
+
+	inicializarMatriz(filas, n, m[][]);
+	distribuirGuerreros(filas, n, m[][]);
+
+	int i = 0;
+	int j;
+	cout << filas << endl;
+	while(i < filas){
+		j = 0;
+		while(j < n){
+			cout << m[i][j]+1;
+			j ++;
+			if (j < n) {
+				std::cout << " ";
+			}
+		}
+		cout << endl;
+		i++;
+	}
+}
+
+\end{lstlisting}
+$
 
 \subsection{Cota de complejidad}
 \begin{verbatim}
