@@ -67,11 +67,11 @@ void Kamehameha(listaPos_t enemigos, Kamehamehas_t ataques, int nroAtaque) {
         }
     } else {
         for (int i = 0; i < enemigos.size(); i++) {
-            posicion_t enemigo = enemigos.front();
-            enemigos.pop_front();
+            posicion_t const enemigo = enemigos[i];
+            enemigos.erase(enemigos.begin()+i);
             atacarEnAtaqueActual(enemigo, enemigos, ataques, nroAtaque);
             atacarEnNuevoAtaque(enemigo, enemigos, ataques, nroAtaque);
-            enemigos.push_front(enemigo);
+            listaPos_t::iterator it = enemigos.insert(enemigos.begin()+i, enemigo);
         }
     }
 }
@@ -146,7 +146,7 @@ void mostrarSolucion() {
         Kamehameha_t ataqueEnIdx = mejor_configuracion[i];
         cout << ataqueEnIdx.size() << " ";
         for (Kamehameha_t::iterator it = ataqueEnIdx.begin(); it != ataqueEnIdx.end(); ++it) {
-            cout << (buscarPosicion(*it)+1) << " ";
+            cout << buscarPosicion(*it)+1 << " ";
         }
         cout << endl;
     }
