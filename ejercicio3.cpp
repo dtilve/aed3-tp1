@@ -41,18 +41,21 @@ int main() {
     Kamehameha_t kamehameha;
     enLaMira.push_back(kamehameha);
     int indexRectaActual;
-	posicion_t posicion;
-    srand(time(NULL));
+	  posicion_t posicion;
+    //srand(time(NULL));
     for (int i = 0; i < cantEnemigos; i++) {
-        int x = rand() %10;
-        int y = rand() %10;
+        int x;
+        //x = rand() %10;
+        int y;
+        //y = rand() %10;
+        std::cin >> x >> y;
     	posicion = make_pair(x, y);
     	enemigos.push_back((posicion));
     }
     //Para imprimir las tuplas generadas al azar:
     enemigos_global = enemigos;
     for (listaPos_t::iterator it = enemigos.begin(); it != enemigos.end(); ++it) {
-            cout << (*it).first << " " << (*it).second << endl;
+            cerr << (*it).first << " " << (*it).second << endl;
     }
     Kamehameha(enemigos, enLaMira, 0);
     mostrarSolucion();
@@ -149,6 +152,16 @@ void mostrarSolucion() {
             cout << buscarPosicion(*it)+1 << " ";
         }
         cout << endl;
+    }
+
+    cerr << mejor_configuracion.size() << endl;
+    for (int i = 0; i < mejor_configuracion.size(); i++) {
+        Kamehameha_t ataqueEnIdx = mejor_configuracion[i];
+        cerr << ataqueEnIdx.size() << " ";
+        for (Kamehameha_t::iterator it = ataqueEnIdx.begin(); it != ataqueEnIdx.end(); ++it) {
+            cerr << buscarPosicion(*it)+1 << " ";
+        }
+        cerr << endl;
     }
 }
 
