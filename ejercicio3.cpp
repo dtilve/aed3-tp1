@@ -43,6 +43,23 @@ int main() {
     int indexRectaActual;
 	  posicion_t posicion;
     //srand(time(NULL));
+
+    // posicion_t p1 = make_pair(8,7);
+    // posicion_t p2 = make_pair(6,2);
+    // posicion_t p3 = make_pair(3,3);
+    // posicion_t p4 = make_pair(6,9);
+    // posicion_t p5 = make_pair(4,6);
+    // posicion_t p6 = make_pair(6,1);
+    // posicion_t p7 = make_pair(8,7);
+
+    // enemigos.push_back((p1));
+    // enemigos.push_back((p2));
+    // enemigos.push_back((p3));
+    // enemigos.push_back((p4));
+    // enemigos.push_back((p5));
+    // enemigos.push_back((p6));
+    // enemigos.push_back((p7));
+
     for (int i = 0; i < cantEnemigos; i++) {
         int x;
         //x = rand() %10;
@@ -63,8 +80,11 @@ int main() {
 }
 
 void Kamehameha(listaPos_t enemigos, Kamehamehas_t ataques, int nroAtaque) {
+    if (minimo_global <= (int) ataques.size()) {
+      return;
+    }
     if (enemigos.size() == 0) {
-        if (minimo_global > (int)ataques.size()) {
+        if (minimo_global > (int) ataques.size()) {
             minimo_global = (int) ataques.size();
             mejor_configuracion = ataques;
         }
