@@ -6,6 +6,8 @@
 #include <time.h>
 #include <algorithm>
 #include <limits>
+#include <sys/time.h>
+#include <cstdio>
 using namespace std;
 
 typedef pair<int,int> posicion_t;
@@ -32,49 +34,41 @@ bool alineados (Kamehameha_t atacados, posicion_t enemigo);
 void reporte(listaPos_t enemigos, Kamehamehas_t ataques, int nroAtaque);
 int buscarPosicion(const posicion_t& enemigo);
 void mostrarSolucion();
+timeval timeStart,timeEnd;
+listaPos_t generarTuplas(int n, vector<int> v, vector<int> w);
+vector<int> generarNumeros(int n);
+bool esta(int j, vector<int> e, int n);
+double get_time();
+void init_time();
 
 int main() {
+    srand(time(NULL));
     int cantEnemigos;
+    int indexRectaActual;
+    
     cin >> cantEnemigos;
+    
     listaPos_t enemigos;
     Kamehamehas_t enLaMira;
     Kamehameha_t kamehameha;
     enLaMira.push_back(kamehameha);
-    int indexRectaActual;
-	  posicion_t posicion;
-    //srand(time(NULL));
+    posicion_t posicion;
 
-    // posicion_t p1 = make_pair(8,7);
-    // posicion_t p2 = make_pair(6,2);
-    // posicion_t p3 = make_pair(3,3);
-    // posicion_t p4 = make_pair(6,9);
-    // posicion_t p5 = make_pair(4,6);
-    // posicion_t p6 = make_pair(6,1);
-    // posicion_t p7 = make_pair(8,7);
-
-    // enemigos.push_back((p1));
-    // enemigos.push_back((p2));
-    // enemigos.push_back((p3));
-    // enemigos.push_back((p4));
-    // enemigos.push_back((p5));
-    // enemigos.push_back((p6));
-    // enemigos.push_back((p7));
-
-    for (int i = 0; i < cantEnemigos; i++) {
-        int x;
-        //x = rand() %10;
-        int y;
-        //y = rand() %10;
-        std::cin >> x >> y;
-    	posicion = make_pair(x, y);
-    	enemigos.push_back((posicion));
-    }
+    vector<int> v;
+    vector<int> w;
+    v=generarNumeros(cantEnemigos);
+    w=generarNumeros(cantEnemigos);
+    enemigos=generarTuplas(cantEnemigos,v,w);
+    
     //Para imprimir las tuplas generadas al azar:
     enemigos_global = enemigos;
     for (listaPos_t::iterator it = enemigos.begin(); it != enemigos.end(); ++it) {
             cerr << (*it).first << " " << (*it).second << endl;
     }
+
+    init_time();
     Kamehameha(enemigos, enLaMira, 0);
+    cout << "el tiempo que tardo es:" << get_time() << endl;
     mostrarSolucion();
     return 0;
 }
@@ -188,4 +182,47 @@ void mostrarSolucion() {
 int buscarPosicion(const posicion_t& enemigo) {
     listaPos_t::iterator it = find (enemigos_global.begin(), enemigos_global.end(), enemigo);
     return distance(enemigos_global.begin(), it);
+}
+
+void init_time(){
+    gettimeofday(&timeStart,NULL);
+}
+
+double get_time(){
+    gettimeofday(&timeEnd,NULL);
+    return (1000000*(timeEnd.tv_sec-timeStart.tv_sec)+(timeEnd.tv_usec-timeStart.tv_usec))/1000000.0;
+}
+
+bool esta(int j, vector<int> e, int n){
+    bool b=false;
+    for(int i=0; i<n; i++){
+        if(e[i]==j){
+           b=true;
+        }
+    }   
+    return b;
+}
+
+vector<int> generarNumeros(int n){
+    vector<int> v;
+    int i=0;
+    int j=0;    
+    while(i<n){
+        j=rand()%10;
+        if(!esta(j,v,i)){
+            v.push_back((j));
+            i++;    
+        }
+    }
+    return v;
+}
+
+listaPos_t generarTuplas(int n, vector<int> v, vector<int> w){
+    pair<int,int> en;
+    listaPos_t e;
+    for(int i=0; i<n; i++){
+        en = make_pair(v[n-1-i],w[i]);
+        e.push_back((en));
+    }
+    return e;
 }
