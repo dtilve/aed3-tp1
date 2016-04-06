@@ -59,7 +59,7 @@ int main() {
     Kamehamehas_t enLaMira;
     Kamehameha_t kamehameha;
     enLaMira.push_back(kamehameha);
-    posicion_t posicion;
+    //posicion_t posicion;
 
     // posicion_t p1 = make_pair(1,2);
     // posicion_t p2 = make_pair(2,1);
@@ -72,19 +72,19 @@ int main() {
     // enemigos.push_back(p3);
     // enemigos.push_back(p4);
     // enemigos.push_back(p5);
-    // vector<int> v;
-    // vector<int> w;
-    // v=generarNumeros(cantEnemigos);
-    // w=generarNumeros(cantEnemigos);
-    // enemigos=generarTuplas(cantEnemigos,v,w);
+    vector<int> v;
+    vector<int> w;
+    v=generarNumeros(cantEnemigos);
+    w=generarNumeros(cantEnemigos);
+    enemigos=generarTuplas(cantEnemigos,v,w);
 
-    int x;
-    int y;
-
-    for (int i = 0; i < cantEnemigos; i++) {
-      std::cin >> x >> y;
-      enemigos.push_back(make_pair(x,y));
-    }
+    // int x;
+    // int y;
+    //
+    // for (int i = 0; i < cantEnemigos; i++) {
+    //   std::cin >> x >> y;
+    //   enemigos.push_back(make_pair(x,y));
+    // }
     //Para imprimir las tuplas generadas al azar:
     enemigos_global = enemigos;
     for (listaPos_t::iterator it = enemigos.begin(); it != enemigos.end(); ++it) {
@@ -93,7 +93,7 @@ int main() {
 
     init_time();
     Kamehameha(enemigos, enLaMira, 0);
-    //cout << "el tiempo que tardo es:" << get_time() << endl;
+    cout << "El tiempo que tardo es:" << get_time() << endl;
     mostrarSolucion();
     return 0;
 }
@@ -231,7 +231,7 @@ vector<int> generarNumeros(int n){
     int i=0;
     int j=0;
     while(i<n){
-        j=rand()%10;
+        j=rand()%15;
         if(!esta(j,v,i)){
             v.push_back((j));
             i++;
