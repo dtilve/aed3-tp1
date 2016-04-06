@@ -30,6 +30,14 @@ void atacarEnNuevoAtaque(posicion_t enemigo,
                          listaPos_t restoEnemigos,
                          Kamehamehas_t ataques,
                          int nroAtaque);
+
+
+void atacarEnNuevoAnterior(posicion_t enemigo,
+                        listaPos_t restoEnemigos,
+                        Kamehamehas_t ataques,
+                        int nroAtaque);
+
+
 bool alineados (Kamehameha_t atacados, posicion_t enemigo);
 void reporte(listaPos_t enemigos, Kamehamehas_t ataques, int nroAtaque);
 int buscarPosicion(const posicion_t& enemigo);
@@ -44,22 +52,39 @@ void init_time();
 int main() {
     srand(time(NULL));
     int cantEnemigos;
-    int indexRectaActual;
-    
+
     cin >> cantEnemigos;
-    
+
     listaPos_t enemigos;
     Kamehamehas_t enLaMira;
     Kamehameha_t kamehameha;
     enLaMira.push_back(kamehameha);
     posicion_t posicion;
 
-    vector<int> v;
-    vector<int> w;
-    v=generarNumeros(cantEnemigos);
-    w=generarNumeros(cantEnemigos);
-    enemigos=generarTuplas(cantEnemigos,v,w);
-    
+    // posicion_t p1 = make_pair(1,2);
+    // posicion_t p2 = make_pair(2,1);
+    // posicion_t p3 = make_pair(3,2);
+    // posicion_t p4 = make_pair(4,2);
+    // posicion_t p5 = make_pair(3,3);
+    //
+    // enemigos.push_back(p1);
+    // enemigos.push_back(p2);
+    // enemigos.push_back(p3);
+    // enemigos.push_back(p4);
+    // enemigos.push_back(p5);
+    // vector<int> v;
+    // vector<int> w;
+    // v=generarNumeros(cantEnemigos);
+    // w=generarNumeros(cantEnemigos);
+    // enemigos=generarTuplas(cantEnemigos,v,w);
+
+    int x;
+    int y;
+
+    for (int i = 0; i < cantEnemigos; i++) {
+      std::cin >> x >> y;
+      enemigos.push_back(make_pair(x,y));
+    }
     //Para imprimir las tuplas generadas al azar:
     enemigos_global = enemigos;
     for (listaPos_t::iterator it = enemigos.begin(); it != enemigos.end(); ++it) {
@@ -68,7 +93,7 @@ int main() {
 
     init_time();
     Kamehameha(enemigos, enLaMira, 0);
-    cout << "el tiempo que tardo es:" << get_time() << endl;
+    //cout << "el tiempo que tardo es:" << get_time() << endl;
     mostrarSolucion();
     return 0;
 }
@@ -83,32 +108,30 @@ void Kamehameha(listaPos_t enemigos, Kamehamehas_t ataques, int nroAtaque) {
             mejor_configuracion = ataques;
         }
     } else {
-        for (int i = 0; i < enemigos.size(); i++) {
-            posicion_t const enemigo = enemigos[i];
-            enemigos.erase(enemigos.begin()+i);
+            posicion_t const enemigo = enemigos[0];
+            enemigos.erase(enemigos.begin());
             atacarEnAtaqueActual(enemigo, enemigos, ataques, nroAtaque);
             atacarEnNuevoAtaque(enemigo, enemigos, ataques, nroAtaque);
-            listaPos_t::iterator it = enemigos.insert(enemigos.begin()+i, enemigo);
+            listaPos_t::iterator it = enemigos.insert(enemigos.begin(), enemigo);
         }
     }
-}
 
 void atacarEnAtaqueActual(posicion_t enemigo, listaPos_t restoEnemigos, Kamehamehas_t ataques, int nroAtaque) {
-    Kamehameha_t atacados = ataques[nroAtaque];
+  for (int i = 0; i <= nroAtaque; i++) {
+    Kamehameha_t atacados = ataques[i];
     if (atacados.size() == 0){
         Kamehameha_t comenzarAtaque;
         comenzarAtaque.push_back(enemigo);
-        ataques[nroAtaque] = comenzarAtaque;
+        ataques[i] = comenzarAtaque;
         Kamehameha(restoEnemigos, ataques, nroAtaque);
         Kamehameha_t reestablecerAtaque;
-        ataques[nroAtaque] = reestablecerAtaque;
+        ataques[i] = reestablecerAtaque;
     } else if (alineados(atacados, enemigo)) {
-        ataques[nroAtaque].push_back(enemigo);
+        ataques[i].push_back(enemigo);
         Kamehameha(restoEnemigos, ataques, nroAtaque);
-        ataques[nroAtaque].pop_back();
-    } else {
-        return;
-    }
+        ataques[i].pop_back();
+      }
+  }
 }
 
 void atacarEnNuevoAtaque(posicion_t enemigo, listaPos_t restoEnemigos, Kamehamehas_t ataques, int nroAtaque) {
@@ -199,19 +222,19 @@ bool esta(int j, vector<int> e, int n){
         if(e[i]==j){
            b=true;
         }
-    }   
+    }
     return b;
 }
 
 vector<int> generarNumeros(int n){
     vector<int> v;
     int i=0;
-    int j=0;    
+    int j=0;
     while(i<n){
         j=rand()%10;
         if(!esta(j,v,i)){
             v.push_back((j));
-            i++;    
+            i++;
         }
     }
     return v;
