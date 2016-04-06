@@ -7,6 +7,9 @@
 \usepackage{color}
 \usepackage{graphicx}
 \usepackage{wrapfig}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{mathtools}
 
 \begin{document}
 
@@ -125,20 +128,147 @@ Si sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y
 
 
 
-\subsection{Cota de complejidad}
-\begin{verbatim}
+\subsection{Pseudocódigo y cota de complejidad}
+\begin{algorithm}
+\caption{IndiceDeMenorYQueLoMata}
+\begin{algorithmic}
+  \Function{IndiceDeMenorYQueLoMata}{t: int, indiceDeObjetivo: int, e: $Arreglo<Tupla<int,int>>$}
+	\State $int j \gets indiceDeObjetivo - 1$ \Comment $\mathcal{O}(1)$
+	\While{$(j \geq 0) && (((e[j]).y + t) \geq (e[indiceDeObjetivo]).y)$} \Comment $\mathcal{indiceDeObjetivo}(1)$
+		\State j-~- \Comment $\mathcal{O}(1)$
+	\EndWhile
+	\State j++ \Comment $\mathcal{O}(1)$
+	\State return j \Comment $\mathcal{O}(1)$
+\EndFunction
+\end{algorithmic}
+\underline{Complejidad:} $\mathcal{O}(indiceDeObjetivo)$\\
+    
+\end{algorithm}
 
-\end{verbatim}
 
+int indiceDeMayorXQueMata(int t, int indiceDeObjetivo, vector<tuple<int,int>> e){
+	int distanciaDeDano = get<0>(e[indiceDeObjetivo]) + t;
+	int i = indiceDeObjetivo - 1;
+	while((i >= 0) && (get<0>(e[i]) <= distanciaDeDano)){
+		i--;
+	}
+	i++;
+	return i;
+}
 
+void genkidama(int t, int n, vector<tuple<int,int>> e){
+	assert (n > 0 && n == e.size() && "La cantidad de enemigos es distinta a la cantidad de posisciones");
+	vector<int> atacados;
+	int genkidamasUtilizadas = 0;
+	int indiceDeObjetivoPorArea = n-1;
+	// el de arriba es aquel al que quiero que le llegue la onda expansiva
+	bool hayAlgunoVivo = true;
+	while(hayAlgunoVivo){
+		// el de abajo es aquel al que le voy a tirar la bomba
+		int indiceDeObjetivo = indiceDeMenorYQueLoMata(t, indiceDeObjetivoPorArea, e);
+		atacados.push_back(indiceDeObjetivo + 1);
+		// el +1 de arriba surge de que en el enunciado se enumeran desde el 1 y
+		// nosotros enumeramos desde 0
+		hayAlgunoVivo = !(indiceDeMayorXQueMata(t, indiceDeObjetivo, e) == 0);
+		indiceDeObjetivoPorArea = indiceDeMayorXQueMata(t, indiceDeObjetivo, e) - 1;
+		genkidamasUtilizadas++;
+		
+	}
+	std::cout << genkidamasUtilizadas << std::endl;
+	int h = 0;
+	while (h < genkidamasUtilizadas) {
+			std::cout << atacados[h];
+			h++;
+			if (h < genkidamasUtilizadas) {
+					std::cout << " ";
+			}
+	}
+	std::cout << std::endl;
+}
 
 \subsection{Experimentacion}
 \begin{verbatim}
 \end{verbatim}
 
 \newpage
-\subsection{Apéndice: código de KaioKen}
+\subsection{Apéndice: código de Genkidama}
 \begin{lstlisting}
+#include <tuple>
+#include <vector>
+#include <iostream>
+#include <cassert>
+using namespace std;
+
+void genkidama(int, int, vector<tuple<int, int>>);
+int indiceDeMenorYQueLoMata(int, int, vector<tuple<int,int>>);
+int indiceDeMayorXQueMata(int, int, vector<tuple<int,int>>);
+
+int main(){
+	int t;
+	int n;
+	cin >> n >> t;
+	vector<tuple<int,int>> e;
+	tuple<int,int> en;
+	int x;
+	int y;
+	for (int i = 0; i < n; i++) {
+		cin >> x >> y;
+		en = make_tuple(x,y);
+		e.push_back((en));
+	}
+	genkidama(t, n, e);
+	return 0;
+}
+
+// Toma el t, el indice del objetivo en e y el vector de tuplas.
+int indiceDeMenorYQueLoMata(int t, int indiceDeObjetivo, vector<tuple<int,int>> e){
+	int j = indiceDeObjetivo - 1;
+	while((j >= 0) && ((get<1>(e[j]) + t) >= get<1>(e[indiceDeObjetivo]))){
+		j--;
+	}
+	j++;
+	return j;
+}
+
+int indiceDeMayorXQueMata(int t, int indiceDeObjetivo, vector<tuple<int,int>> e){
+	int distanciaDeDano = get<0>(e[indiceDeObjetivo]) + t;
+	int i = indiceDeObjetivo - 1;
+	while((i >= 0) && (get<0>(e[i]) <= distanciaDeDano)){
+		i--;
+	}
+	i++;
+	return i;
+}
+
+void genkidama(int t, int n, vector<tuple<int,int>> e){
+	assert (n > 0 && n == e.size() && "La cantidad de enemigos es distinta a la cantidad de posisciones");
+	vector<int> atacados;
+	int genkidamasUtilizadas = 0;
+	int indiceDeObjetivoPorArea = n-1;
+	// el de arriba es aquel al que quiero que le llegue la onda expansiva
+	bool hayAlgunoVivo = true;
+	while(hayAlgunoVivo){
+		// el de abajo es aquel al que le voy a tirar la bomba
+		int indiceDeObjetivo = indiceDeMenorYQueLoMata(t, indiceDeObjetivoPorArea, e);
+		atacados.push_back(indiceDeObjetivo + 1);
+		// el +1 de arriba surge de que en el enunciado se enumeran desde el 1 y
+		// nosotros enumeramos desde 0
+		hayAlgunoVivo = !(indiceDeMayorXQueMata(t, indiceDeObjetivo, e) == 0);
+		indiceDeObjetivoPorArea = indiceDeMayorXQueMata(t, indiceDeObjetivo, e) - 1;
+		genkidamasUtilizadas++;
+		
+	}
+	std::cout << genkidamasUtilizadas << std::endl;
+	int h = 0;
+	while (h < genkidamasUtilizadas) {
+			std::cout << atacados[h];
+			h++;
+			if (h < genkidamasUtilizadas) {
+					std::cout << " ";
+			}
+	}
+	std::cout << std::endl;
+}
 
 \end{lstlisting}
 \end{document}
