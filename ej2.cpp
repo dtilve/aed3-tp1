@@ -2,26 +2,89 @@
 #include <vector>
 #include <iostream>
 #include <cassert>
+#include <algorithm>
+#include<cstdio>
+#include<sys/time.h>
 using namespace std;
 
 void genkidama(int, int, vector<tuple<int, int>>);
 int indiceDeMenorYQueLoMata(int, int, vector<tuple<int,int>>);
 int indiceDeMayorXQueMata(int, int, vector<tuple<int,int>>);
-//void destruir();
+
+timeval timeStart,timeEnd;
+
+void init_time()
+{
+    gettimeofday(&timeStart,NULL);
+}
+
+double get_time()
+{
+    gettimeofday(&timeEnd,NULL);
+    return (1000000*(timeEnd.tv_sec-timeStart.tv_sec)+(timeEnd.tv_usec-timeStart.tv_usec))/1000000.0;
+}
+
+bool esta(int j, vector<int> e, int n){
+	bool b=false;
+	for(int i=0; i<n; i++){
+		if(e[i]==j){
+		   b=true;
+		}
+	}	
+	return b;
+}
+
+vector<int> generarNumeros(int n){
+	vector<int> v;
+	int i=0;
+	int j=0;	
+	while(i<n){
+		j=rand()%100;
+		if(!esta(j,v,i)){
+			v.push_back((j));
+			i++;	
+		}
+	}
+	return v;
+}
+
+vector<tuple<int,int>> generarTuplas(int n, vector<int> v, vector<int> w){
+	tuple<int,int> en;
+	vector<tuple<int,int>> e;
+	for(int i=0; i<n; i++){
+		en = make_tuple(v[n-1-i],w[i]);
+		e.push_back((en));
+	}
+	return e;
+}
+
+vector<int> ordenar(vector<int> v, int n){
+	int aux = 0;
+	for(int j=0; j<n; j++){
+		for(int i=0; i < (n-1); i++){
+			if(v[i]>v[i+1]){
+				aux=v[i];
+				v[i]=v[i+1];
+				v[i+1]=aux;
+			}
+		}
+	}
+	return v;
+}
 
 int main(){
+	srand(time(NULL));
 	int t;
 	int n;
 	cin >> n >> t;
 	vector<tuple<int,int>> e;
-	tuple<int,int> en;
-	int x;
-	int y;
-	for (int i = 0; i < n; i++) {
-		cin >> x >> y;
-		en = make_tuple(x,y);
-		e.push_back((en));
-	}
+	vector<int> v;
+	vector<int> w;
+	v=generarNumeros(n);
+	w=generarNumeros(n);
+	v = ordenar(v,n);
+	w = ordenar(w,n);	
+	e=generarTuplas(n,v,w);	
 	genkidama(t, n, e);
 	return 0;
 }
@@ -46,12 +109,6 @@ int indiceDeMayorXQueMata(int t, int indiceDeObjetivo, vector<tuple<int,int>> e)
 	return i;
 }
 
-/*void destruir(int t, int indiceDeObjetivo, vector<tuple<int,int>> e, int genkidamas, int indicePorArea){
-	indicePorArea = indiceDeMayorXQueMata(t, indiceDeObjetivo, e) - 1;
-	genkidamas++;
-}*/
-
-
 // MODULARIZADO
 void genkidama(int t, int n, vector<tuple<int,int>> e){
 	assert (n > 0 && n == e.size() && "La cantidad de enemigos es distinta a la cantidad de posisciones");
@@ -60,6 +117,13 @@ void genkidama(int t, int n, vector<tuple<int,int>> e){
 	int indiceDeObjetivoPorArea = n-1;
 	// el de arriba es aquel al que quiero que le llegue la onda expansiva
 	bool hayAlgunoVivo = true;
+	
+	for (int i = 0; i < n; ++i)
+	{
+		cout << get<0>(e[i]) << "  " << get<1>(e[i]) << endl;
+	}
+
+	init_time();	
 	while(hayAlgunoVivo){
 		// el de abajo es aquel al que le voy a tirar la bomba
 		int indiceDeObjetivo = indiceDeMenorYQueLoMata(t, indiceDeObjetivoPorArea, e);
@@ -69,12 +133,13 @@ void genkidama(int t, int n, vector<tuple<int,int>> e){
 		hayAlgunoVivo = !(indiceDeMayorXQueMata(t, indiceDeObjetivo, e) == 0);
 		indiceDeObjetivoPorArea = indiceDeMayorXQueMata(t, indiceDeObjetivo, e) - 1;
 		genkidamasUtilizadas++;
-		//destruir(t, indiceDeObjetivo, e, genkidamasUtilizadas, indiceDeObjetivoPorArea);
 	}
-	std::cout << genkidamasUtilizadas << std::endl;
+	cout << "el tiempo fue " << get_time() << endl;
+
+	std::cout << "genkidamasUtilizadas" << genkidamasUtilizadas << std::endl;
 	int h = 0;
 	while (h < genkidamasUtilizadas) {
-			std::cout << atacados[h];
+			std::cout << "atacados" << atacados[h];
 			h++;
 			if (h < genkidamasUtilizadas) {
 					std::cout << " ";
