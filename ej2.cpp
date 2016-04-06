@@ -3,74 +3,21 @@
 #include <iostream>
 #include <cassert>
 #include <algorithm>
-#include<cstdio>
-#include<sys/time.h>
+#include <cstdio>
+#include <sys/time.h>
 using namespace std;
 
 void genkidama(int, int, vector<tuple<int, int>>);
 int indiceDeMenorYQueLoMata(int, int, vector<tuple<int,int>>);
 int indiceDeMayorXQueMata(int, int, vector<tuple<int,int>>);
-
 timeval timeStart,timeEnd;
+vector<int> ordenar(vector<int> v, int n);
+vector<tuple<int,int>> generarTuplas(int n, vector<int> v, vector<int> w);
+vector<int> generarNumeros(int n);
+bool esta(int j, vector<int> e, int n);
+double get_time();
+void init_time();
 
-void init_time()
-{
-    gettimeofday(&timeStart,NULL);
-}
-
-double get_time()
-{
-    gettimeofday(&timeEnd,NULL);
-    return (1000000*(timeEnd.tv_sec-timeStart.tv_sec)+(timeEnd.tv_usec-timeStart.tv_usec))/1000000.0;
-}
-
-bool esta(int j, vector<int> e, int n){
-	bool b=false;
-	for(int i=0; i<n; i++){
-		if(e[i]==j){
-		   b=true;
-		}
-	}	
-	return b;
-}
-
-vector<int> generarNumeros(int n){
-	vector<int> v;
-	int i=0;
-	int j=0;	
-	while(i<n){
-		j=rand()%100;
-		if(!esta(j,v,i)){
-			v.push_back((j));
-			i++;	
-		}
-	}
-	return v;
-}
-
-vector<tuple<int,int>> generarTuplas(int n, vector<int> v, vector<int> w){
-	tuple<int,int> en;
-	vector<tuple<int,int>> e;
-	for(int i=0; i<n; i++){
-		en = make_tuple(v[n-1-i],w[i]);
-		e.push_back((en));
-	}
-	return e;
-}
-
-vector<int> ordenar(vector<int> v, int n){
-	int aux = 0;
-	for(int j=0; j<n; j++){
-		for(int i=0; i < (n-1); i++){
-			if(v[i]>v[i+1]){
-				aux=v[i];
-				v[i]=v[i+1];
-				v[i+1]=aux;
-			}
-		}
-	}
-	return v;
-}
 
 int main(){
 	srand(time(NULL));
@@ -148,6 +95,64 @@ void genkidama(int t, int n, vector<tuple<int,int>> e){
 	std::cout << std::endl;
 }
 
+void init_time()
+{
+    gettimeofday(&timeStart,NULL);
+}
+
+double get_time()
+{
+    gettimeofday(&timeEnd,NULL);
+    return (1000000*(timeEnd.tv_sec-timeStart.tv_sec)+(timeEnd.tv_usec-timeStart.tv_usec))/1000000.0;
+}
+
+bool esta(int j, vector<int> e, int n){
+	bool b=false;
+	for(int i=0; i<n; i++){
+		if(e[i]==j){
+		   b=true;
+		}
+	}	
+	return b;
+}
+
+vector<int> generarNumeros(int n){
+	vector<int> v;
+	int i=0;
+	int j=0;	
+	while(i<n){
+		j=rand()%100;
+		if(!esta(j,v,i)){
+			v.push_back((j));
+			i++;	
+		}
+	}
+	return v;
+}
+
+vector<tuple<int,int>> generarTuplas(int n, vector<int> v, vector<int> w){
+	tuple<int,int> en;
+	vector<tuple<int,int>> e;
+	for(int i=0; i<n; i++){
+		en = make_tuple(v[n-1-i],w[i]);
+		e.push_back((en));
+	}
+	return e;
+}
+
+vector<int> ordenar(vector<int> v, int n){
+	int aux = 0;
+	for(int j=0; j<n; j++){
+		for(int i=0; i < (n-1); i++){
+			if(v[i]>v[i+1]){
+				aux=v[i];
+				v[i]=v[i+1];
+				v[i+1]=aux;
+			}
+		}
+	}
+	return v;
+}
 
 /* ORIGINAL QUE ANDA
 void genkidama(int t, int n, vector<tuple<int,int>> e){
