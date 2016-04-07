@@ -216,6 +216,99 @@ int buscarPosicion(const posicion_t& enemigo) {
 
 \subsection{Experimentacion}
 \begin{verbatim}
+Se puede observar que el tiempo que tarda el algoritmo es relativo a la distribucion de los puntos, aunque principalmente a la cantidad que sean. A partir de 16 puntos el algoritmo tarda mas de un minuto.
+
+Cantidad de puntos = 1
+Posiciones = 9 8
+El tiempo que tardo es:1.7e-05
+Rectas que necesitamos = 1
+1 1 
+
+Cantidad de puntos = 2
+Posiciones = 12 5 - 9 3
+El tiempo que tardo es:3.2e-05
+Rectas que necesitamos = 1
+2 1 2 
+   
+Cantidad de puntos = 3
+Posiciones = 6 3 - 14 7 - 3 12
+El tiempo que tardo es:4.4e-05
+Rectas que necesitamos = 2
+2 1 2 
+1 3 
+   
+Cantidad de puntos = 4
+Posiciones = 13 0 - 1 12 - 9 10 - 10 1
+El tiempo que tardo es:6e-05
+Rectas que necesitamos = 2
+2 1 2 
+2 3 4 
+   
+Cantidad de puntos = 5
+Posiciones = 9 0 - 11 6 - 14 12 - 12 8 - 5 9
+El tiempo que tardo es:0.000175
+Rectas que necesitamos = 2
+2 1 5 
+3 2 3 4 
+   
+Cantidad de puntos = 6
+Posiciones = 5 4 - 0 11 - 1 7 - 3 9 - 10 10 - 12 3
+El tiempo que tardo es:0.000169
+Rectas que necesitamos = 3
+2 1 2 
+2 3 4 
+2 5 6 
+   
+Cantidad de puntos = 7
+Posiciones = 12 9 - 7 13 - 5 10 - 10 14 - 9 7 - 0 3 - 11 8
+El tiempo que tardo es:0.000836
+Rectas que necesitamos = 4
+2 1 2 
+2 3 4 
+2 5 6 
+1 7 
+   
+Cantidad de puntos = 8
+Posiciones = 6 13 - 7 3 - 1 0 - 4 10 - 8 6 - 3 9 - 0 5 - 12 2
+El tiempo que tardo es:0.00056
+Rectas que necesitamos = 3
+3 1 6 7 
+2 2 3 
+3 4 5 8 
+   
+Cantidad de puntos = 9
+Posiciones = 7 11 - 12 2 - 8 0 - 0 3 - 13 12 - 6 5 - 1 7 - 3 6 - 9 1
+El tiempo que tardo es:0.006745
+Rectas que necesitamos = 5
+2 1 2 
+2 3 4 
+2 5 6 
+2 7 8 
+1 9 
+   
+Cantidad de puntos = 10
+Posiciones = 6 9 - 4 12 - 2 14 - 8 7 - 3 3 - 9 10 - 5 4 - 11 6 - 10 13 - 14 2
+El tiempo que tardo es:0.002715
+Rectas que necesitamos = 4
+2 1 5 
+3 2 3 10 
+3 4 6 9 
+2 7 8 
+   
+Cantidad de puntos = 15
+Posiciones = 0 2 - 5 5 - 14 8 - 3 13 - 9 4 - 7 14 - 8 12 - 12 1 - 10 11 - 6 3 - 4 9 - 13 7 - 11 6 - 2 0 - 1 10
+El tiempo que tardo es:0.785094
+Rectas que necesitamos = 7
+2 1 2 
+2 3 4 
+2 5 6 
+2 7 10 
+3 8 9 13 
+2 11 12 
+2 14 15 
+
+Gafico que representa este experimento:
+
 \end{verbatim}
 
 \end{document}
