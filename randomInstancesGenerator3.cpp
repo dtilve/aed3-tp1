@@ -40,8 +40,9 @@ void randomInstanceGenerator(int s, int n, ofstream &file) {
     } else if (s == 1) {
         // best case - aligned
         int y = 1;
-        for (int i = 0; int < n; i++) {
+        for (int i = 0; i < n; i++) {
             int x = i;
+            file << to_string(x) << " " << to_string(y) << endl;
         }
     } else {
         // random seed
