@@ -46,7 +46,7 @@ int indiceDeMayorXQueMata(int t, int indiceDeObjetivo, vector<tuple<int,int>> e)
 	return i;
 }
 
-/*void destruir(int t, int indiceDeObjetivo, vector<tuple<int,int>> e, int genkidamas, int indicePorArea){
+/*void destruir(int t, int indiceDeObjetivo, vector<tuple<int,int>> e, int genkidamas, int &indicePorArea){
 	indicePorArea = indiceDeMayorXQueMata(t, indiceDeObjetivo, e) - 1;
 	genkidamas++;
 }*/
