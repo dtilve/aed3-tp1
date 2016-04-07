@@ -199,7 +199,7 @@ Si sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y
 \newpage
 
 \subsection{Cota de complejidad}
-Como se puede ver en el pseudocódigo y se explica en la sección "Ideas para desarrollar el algoritmo" se recorren todos los puntos ordenados, de mayor a menor coordenada $y$, una vez, ya sea para encontrar a que enemigo atacar o para ver cuales murieron en el último ataque.
+Como se puede ver en el pseudocódigo y se explica en la sección "Ideas para desarrollar el algoritmo" se recorren todos los puntos ordenados, de mayor a menor coordenada $y$, una vez, ya sea para encontrar a que enemigo atacar o para ver cuales murieron en el último ataque.\\
 Cuando se busca un enemigo a atacar, se verifica que al atacarlo se maten todos los anteriores, así al lanzar una Genkidama sabemos que todos los enemigos por los que ya iteramos estarán muertos y solo queda ver cuales de los siguentes al enemigo atacado tambíen muerieron. Esto se logra iterando por los enemigos subsiguientes al atacado hasta encontrar el primero al que la Genkidama no mató y con él se vuelve a comenzar el proceso. Se puede ver claramente que se itera por todos los enemigos y que se hace solo una vez haciendo que la complejidad sea $\mathcal{O}(n)$ siendo $n$ la cantidad de enemigos.
 
 \subsection{Experimentacion}
