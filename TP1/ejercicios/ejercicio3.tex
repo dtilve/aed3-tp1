@@ -1,9 +1,15 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage[utf8]{inputenc} % para poder usar tildes en archivos UTF-8
 \usepackage[spanish]{babel} % para que comandos como \today den el resultado en castellano
-\usepackage{a4wide} % márgenes un poco más anchos que lo usual
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{mathtools}
 
 \begin{document}
 
@@ -30,19 +36,31 @@
 \section{Kamehameha}
 
 \subsection{Descripcion del problema}
-\begin{verbatim}
-El problema consiste en calcular la cantidad de Kamehamehas que debe lanzar Goku para destruir un cunjunto de objetivos. 
-Analizandolo matematicamente, trazar la menor cantidad de rectas que contengan a todos los puntos de un cunjunto. El conjunto de generamos al azar. Es decir agrupar en la menor cantidad posible de conjuntos, a todos los puntos. Cada conjunto contiene a puntos que pertenecen a la misma recta.
-\end{verbatim}
+
+El problema consiste en calcular la mínima cantidad de Kamehamehas que debe lanzar Goku para destruir un cunjunto de andriodes usando Backtracking.
+Al usar backtracking, el problema se reduce a trazar todas las posibles rectas que pasan una sola vez por cada punto y elegir la combinación con menor cantidad de rectas. Por ejemplo, si hay 5 androides en las siguientes posiciones
+1 (1,2) 2 (2,1) 3 (3,2) 4 (4,2) 5 (3,3)
+Como muestra el siguiente gráfico
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=7cm, height=6cm]{ejemploHame1}
+  \caption{Puntos distribuidos inicialmente.}
+\end{figure}
+
+Una posible solución óptima sería lanzar 2 Kamehameha, 1 que mate a 3 androides (al 1, 3 y 4), la recta verde, y otro que mate a los otros 2, la recta azul.
+
+\subsection{Descripción de la resolución}
+La idea del algoritmo es que recursivamente vaya creando todas las combinaciones de rectas. Esto lo logramos utilizando una función principal, Kamehameha, a la que recurrimos y 2 funciones, una que se fija si un androide puede ser atacado con un Kamehameha ya lanzado (si esta alineado con algun con algun otro grupo de androides ya atacados) y vuelve a llamar a la función principal con los nuevos valores una vez por cada grupo con el que esta alineado este androide y otra función que comienza un nuevo ataque con ese androide y vuelve a llamar a la función principal. De esta forma, probando con un enemigo, volviendo atras, probando con el siguiente, volviendo atras y asi sucesivamente hasta probar con todos los enemigos, podemos generar todas las posibles combinaciones de líneas. Lo único que resta es verificar cual de estas es la óptima. Para conseguirlo, cada vez que generamos una solución completa, verificamos su tamaño (su acantidad de líneas) y la guardamos si es la menor hasta el momento, sino la descartamos.
+Para mejorar el tiempo de ejecución decidimos agregar un a poda que descarta soluciones que estan siendo generadas en el momento que su tamaño supera el tamaño de la solución minima alamacenada, ya que sabemos que si o si es mayor o igual a la que ya tenemos, por lo tanto no nos sirve.
 
 \subsection{Pseudocódigo}
 \begin{verbatim}
 \end{verbatim}
 
 \subsection{Cota de complejidad}
-\paragraph{Para determinar la cota de complejidad planteamos el $\acute{a}$rbol de llamadas recursivas para una entrada de n enemigos. Para armar este arbol no tuvimos en cuenta las podas.}
-\paragraph{En la primera llamada a Kamehameha se obtienen n $\acute{a}$rboles iteraci$\acute{o}$}
+\paragraph{Como ya explicamos, usamos recursividad y 2 funciones. En cada llamado recursivo usamos las 2 funciones. La que genera un nuevo ataque es O(1) ya que hace una cantidad acotada de operaciones O(1). La otra, verifica si un enemigo esta alineado con los otros una vez por cada ataque realizado hasta el momento. Lala cantidad de ataques es acotada, ya que como cualqueir par de puntos puede ser unido con una recta, la cantidad de ataques o rectas necesarios es menor o igual a $n/2$, siendo $n$ la cantidad total de enemigos. De esta forma vemos que esta función es O($n/2$).
 
+}
 
 \subsection{Extracto importante de código}
 \begin{lstlisting}
