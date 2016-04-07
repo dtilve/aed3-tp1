@@ -79,7 +79,7 @@ Finalmente queda la situación mostrada en la Figura 4 y se dispara una tercera 
   \label{fig:test2}
 \end{minipage}
 \end{figure}
-\\
+
 Ahora veamos cómo sería este proceso con $T = 2$.
 De vuelta se comienza queriendo destruir al objetivo en A. Como se ve en la Figura 5, disparar a C no destruye a A pero disparar a B sí. Así, morirán los androides situados en los puntos incluidos en la región sombreada naranja en la Figura 6 (el área de impacto A(B, 2)).
 \par{Finalmente queda la situación mostrada en la Figura 7 en la que el objetivo es destruir al objetivo de E y se terminará disparando a F eliminando a los dos androides restantes.}
@@ -126,10 +126,8 @@ Si sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y
 \item[•] Recorrer hasta el último punto y que una Gendikama lanzada ahí también elimine al androide situado en A, necesitando sólo un disparo para destruir a todos.
 \item[•] Recorrer hasta eventualmente encontrar un androide posicionado en un punto $K$ al que si se lanzara una Gendikama ésta no matara al androide en A. En este caso habría que disparar al androide situado en la posición con la coordenada $y$ inmediatamente anterior a la de $K$, llamémoslo J, y calcular $J_{x}+T$ para ver cuál sería el objetivo de mayor coordenada $y$ que quedara vivo  y repetir el proceso como si este fuera el nuevo $A$. Si no quedara ningún objetivo por eliminar entonces ya no habría necesidad de seguir disparando Gendikamas.
 \end{itemize}
-\\
 
-
-\subsection{Pseudocódigo y cota de complejidad}
+\subsection{Pseudocódigo}
 \begin{algorithm}
 \caption{IndiceDeMenorYQueLoMata}
 \begin{algorithmic}
@@ -150,9 +148,9 @@ Si sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y
 \caption{IndiceDeMayorXQueMata}
 \begin{algorithmic}
   \Function{IndiceDeMayorXQueMata}{t: int, indiceDeObjetivo: int, e: $Arreglo<Tupla<int,int>>$} $\to j$ : \texttt{int}
-  	\State $int~ distanciaDeDaño \gets e[indiceDeObjetivo].x + t$ \Comment $\mathcal{O}(1)$
+  	\State $int~ distanciaDeDano \gets e[indiceDeObjetivo].x + t$ \Comment $\mathcal{O}(1)$
 	\State $int~ i \gets indiceDeObjetivo - 1$ \Comment $\mathcal{O}(1)$
-	\While{$(i \geq 0) \wedge (((e[i]).x) \leq distanciaDeDaño$} \Comment $\mathcal{O}(indiceDeObjetivo)$
+	\While{$(i \geq 0) \wedge (((e[i]).x) \leq distanciaDeDano$} \Comment $\mathcal{O}(indiceDeObjetivo)$
 		\State i-~- \Comment $\mathcal{O}(1)$
 	\EndWhile
 	\State i++ \Comment $\mathcal{O}(1)$
@@ -162,6 +160,7 @@ Si sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y
 \underline{Complejidad:} $\mathcal{O}(indiceDeObjetivo)$\\
     
 \end{algorithm}
+\newpage
 
 \begin{algorithm}
 \caption{Genkidama}
@@ -198,6 +197,11 @@ Si sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y
 \end{algorithm}
 
 \newpage
+
+\subsection{Cota de complejidad}
+Como se puede ver en el pseudocódigo y se explica en la sección "Ideas para desarrollar el algoritmo" se recorren todos los puntos ordenados, de mayor a menor coordenada $y$, una vez, ya sea para encontrar a que enemigo atacar o para ver cuales murieron en el último ataque.
+Cuando se busca un enemigo a atacar, se verifica que al atacarlo se maten todos los anteriores, así al lanzar una Genkidama sabemos que todos los enemigos por los que ya iteramos estarán muertos y solo queda ver cuales de los siguentes al enemigo atacado tambíen muerieron. Esto se logra iterando por los enemigos subsiguientes al atacado hasta encontrar el primero al que la Genkidama no mató y con él se vuelve a comenzar el proceso. Se puede ver claramente que se itera por todos los enemigos y que se hace solo una vez haciendo que la complejidad sea $\mathcal{O}(n)$ siendo $n$ la cantidad de enemigos.
+
 \subsection{Experimentacion}
 \begin{verbatim}
 Acontinuacion se informa detalladamente el experimento que se hizo. Para hacer mas facil la lectura, hay que notar la cantidad de puntos fue aumentando, para sada cantidad se realizaron 2 mediciones, porque la resolucion del problema esta muy relacionada con los puntos que se generan. Se ve que los tiempos aumentan cuanto mas grande es la cantidad de puntos y para instancias grandes varia bastante. Luego del experimento se presenta un grafico.

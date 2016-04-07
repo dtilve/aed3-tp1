@@ -59,6 +59,7 @@ Sabemos que la cantidad de posibles soluciones para una entrada de $n$ androides
 Por como planteamos la resolución del poroblema, por cada solución que generamos, volvemos atras y reutilizamos lo ya calculado para generar todas las posibles, de esta forma el árbol las hojas hojas de nuestro árbol tienen siempre al menos un hermano. Suponiendo el peor caso, donde cada hoja tiene solamente un hermano, como cada sub solución es una solucion posible de un problema de menor tamaño, podemos asumir que todo nodo tiene soloamente un hermano, convirtiendo a nuestro árbol de recursión en un árbol binario. Teniendo $n!$ hojas y siendo la cantidad total de nodos $= (($\#$hojas)*2 - 1)$ nos da que la cantidad de nodos es del orden de $2*n!$ por lo tanto la complejidad del algoritmo termina siendo $\mathcal{O}(n!)$.
 
 \subsection{Pseudocódigo}
+listaPos $= lista<(int,int)>$ , kamehamehas $= lista<(listaPos)>$
 
 \begin{algorithm}
 \caption{Kamehameha}
