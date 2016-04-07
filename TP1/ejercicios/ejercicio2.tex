@@ -38,20 +38,20 @@
 \subsection{Descripción del problema}
 
 El problema a resolver es el siguiente:
-Tenemos un secuencia de puntos $(x,y)$ en el espacio para los cuales, si la coordenada $x$ de un punto es mayor a la de otro punto, la coordenada en y del segundo punto es menor. Dado un valor $T$, se desea calcular la minima cantidad de gendikamas a tirar para destruir a todos los puntos. Si se tira a un punto $(x_{0},y_{0})$, al gendikama alcanza a destruir a todos los puntos que posean $x \leq x_{0} + T$ y posean $y \leq y_{0} + T$.\\
+Tenemos un secuencia de puntos $(x,y)$ en el espacio para los cuales, si la coordenada $x$ de un punto es mayor a la de otro punto, la coordenada en y del segundo punto es menor. Dado un valor $T$, se desea calcular la minima cantidad de genkidamas a tirar para destruir a todos los puntos. Si se tira a un punto $(x_{0},y_{0})$ la genkidama alcanza a destruir a todos los puntos que posean $x \leq x_{0} + T$ y posean $y \leq y_{0} + T$.\\
 
 \subsection{Ejemplos}
 
 Supongamos que tenemos los puntos mostrados en la Figura 1 y $T = 1$.\\
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=7cm, height=5cm]{EjemploInicialUtil}
+  \includegraphics[width=7cm, height=6cm]{EjemploInicialUtil}
   \caption{Puntos distribuidos inicialmente.}
 \end{figure}
 
 Primero queremos destruir al objetivo situado en $A$. Miramos el objetivo $B$, que tiene la mayor coordenada $y$ de los que tienen menor coordenada $y$ que $A$ (que son todos dado que se empieza queriendo destruir al objetivo situado en el punto con mayor $y$). En la Figura 2 vemos que $A_{y} > B_{y} + T$ y que A no pertenece al área de impacto A(B, 1), o sea que disparar una genkidama al punto B no eliminaría al androide de A. Por transitividad, como $B_{y} > C_{y} > ... > F_{y}$, ninguno de los disparos a los puntos siguientes a B eliminará al objetivo de A, por lo que es necesario disparar una genkidama a A. El área de impacto A(A, T) = A( (1,8), 1) de esta genkidama, sombrada con rojo en la Figura 2, incluye al punto B, que además es el de mayor coordenada $x$ de los destruidos por esta gendikama.\\
-El siguiente a B, C, es el de mayor coordenada $y$ de los que están vivos, y se repite el proceso que se llevó a cabo con A. En la Figura 3 se ve que la segunda gendikama se disparará a D, destruyendo a los objetivos de C, D y E.
-Finalmente queda la situación mostrada en la Figura 4 y se dispara una tercera genkidama a F.\\
+\par{El siguiente a B, C, es el de mayor coordenada $y$ de los que están vivos, y se repite el proceso que se llevó a cabo con A. En la Figura 3 se ve que la segunda gendikama se disparará a D, destruyendo a los objetivos de C, D y E.
+Finalmente queda la situación mostrada en la Figura 4 y se dispara una tercera genkidama a F.}\\
 
 \begin{figure}[h!]
 \centering
@@ -68,13 +68,16 @@ Finalmente queda la situación mostrada en la Figura 4 y se dispara una tercera 
   \label{fig:test2}
 \end{minipage}
 
+\end{figure}
+
+\begin{figure}[h!]
+\centering
 \begin{minipage}{.5\textwidth}
   \centering
   \includegraphics[width=4cm]{EjemploArea3}
   \caption{Androide restante por destruir, en F.}
   \label{fig:test2}
 \end{minipage}
-
 \end{figure}
 \\
 \par{Ahora veamos cómo sería este proceso con $T = 2$.
@@ -126,15 +129,13 @@ Si sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y
 \\
 
 
-
-\newpage
 \subsection{Pseudocódigo y cota de complejidad}
 \begin{algorithm}
 \caption{IndiceDeMenorYQueLoMata}
 \begin{algorithmic}
-  \Function{IndiceDeMenorYQueLoMata}{t: int, indiceDeObjetivo: int, e: $Arreglo<Tupla<int,int>>$}
-	\State $int j \gets indiceDeObjetivo - 1$ \Comment $\mathcal{O}(1)$
-	\While{$(j \geq 0) && (((e[j]).y + t) \geq (e[indiceDeObjetivo]).y)$} \Comment $\mathcal{indiceDeObjetivo}(1)$
+  \Function{IndiceDeMenorYQueLoMata}{t: int, indiceDeObjetivo: int, e: $Arreglo<Tupla<int,int>>$} $\to j$ : \texttt{int}
+	\State $int~ j \gets indiceDeObjetivo - 1$ \Comment $\mathcal{O}(1)$
+	\While{$(j \geq 0) \wedge (((e[j]).y + t) \geq (e[indiceDeObjetivo]).y)$} \Comment $\mathcal{O}(indiceDeObjetivo)$
 		\State j-~- \Comment $\mathcal{O}(1)$
 	\EndWhile
 	\State j++ \Comment $\mathcal{O}(1)$
@@ -145,47 +146,58 @@ Si sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y
     
 \end{algorithm}
 
+\begin{algorithm}
+\caption{IndiceDeMayorXQueMata}
+\begin{algorithmic}
+  \Function{IndiceDeMayorXQueMata}{t: int, indiceDeObjetivo: int, e: $Arreglo<Tupla<int,int>>$} $\to j$ : \texttt{int}
+  	\State $int~ distanciaDeDaño \gets e[indiceDeObjetivo].x + t$ \Comment $\mathcal{O}(1)$
+	\State $int~ i \gets indiceDeObjetivo - 1$ \Comment $\mathcal{O}(1)$
+	\While{$(i \geq 0) \wedge (((e[i]).x) \leq distanciaDeDaño$} \Comment $\mathcal{O}(indiceDeObjetivo)$
+		\State i-~- \Comment $\mathcal{O}(1)$
+	\EndWhile
+	\State i++ \Comment $\mathcal{O}(1)$
+	\State return i \Comment $\mathcal{O}(1)$
+\EndFunction
+\end{algorithmic}
+\underline{Complejidad:} $\mathcal{O}(indiceDeObjetivo)$\\
+    
+\end{algorithm}
 
-int indiceDeMayorXQueMata(int t, int indiceDeObjetivo, vector<tuple<int,int>> e){
-	int distanciaDeDano = get<0>(e[indiceDeObjetivo]) + t;
-	int i = indiceDeObjetivo - 1;
-	while((i >= 0) && (get<0>(e[i]) <= distanciaDeDano)){
-		i--;
-	}
-	i++;
-	return i;
-}
-
-void genkidama(int t, int n, vector<tuple<int,int>> e){
-	assert (n > 0 && n == e.size() && "La cantidad de enemigos es distinta a la cantidad de posisciones");
-	vector<int> atacados;
-	int genkidamasUtilizadas = 0;
-	int indiceDeObjetivoPorArea = n-1;
-	// el de arriba es aquel al que quiero que le llegue la onda expansiva
-	bool hayAlgunoVivo = true;
-	while(hayAlgunoVivo){
-		// el de abajo es aquel al que le voy a tirar la bomba
-		int indiceDeObjetivo = indiceDeMenorYQueLoMata(t, indiceDeObjetivoPorArea, e);
+\begin{algorithm}
+\caption{Genkidama}
+\begin{algorithmic}
+  \Function{Genkidama}{t: int, n: int, e: $Arreglo<Tupla<int,int>>$}
+  	\State $int~[~]~ atacados$ \Comment $\mathcal{O}(1)$
+  	\State $int ~genkidamasUtilizadas \gets 0$ \Comment $\mathcal{O}(1)$
+	\State $int ~indiceDeObjetivoPorArea \gets n - 1$ \Comment $\mathcal{O}(1)$
+	\State $ el de arriba es aquel al que quiero que le llegue la onda expansiva$
+	\State $bool ~hayAlgunoVivo \gets true$ \Comment $\mathcal{O}(1)$
+	\While{$hayAlgunoVivo$} \Comment $\mathcal{O}(indiceDeObjetivo)$
+		\State $el de abajo es aquel al que le voy a tirar la bomba$
+		\State $int indiceDeMenorYQueLoMata(t, indiceDeObjetivoPorArea, e)$ \Comment $\mathcal{O}(indiceDeObjetivoPorArea)$
 		atacados.push_back(indiceDeObjetivo + 1);
-		// el +1 de arriba surge de que en el enunciado se enumeran desde el 1 y
-		// nosotros enumeramos desde 0
-		hayAlgunoVivo = !(indiceDeMayorXQueMata(t, indiceDeObjetivo, e) == 0);
-		indiceDeObjetivoPorArea = indiceDeMayorXQueMata(t, indiceDeObjetivo, e) - 1;
-		genkidamasUtilizadas++;
-		
-	}
-	std::cout << genkidamasUtilizadas << std::endl;
-	int h = 0;
-	while (h < genkidamasUtilizadas) {
-			std::cout << atacados[h];
-			h++;
-			if (h < genkidamasUtilizadas) {
-					std::cout << " ";
-			}
-	}
-	std::cout << std::endl;
-}
+		\State $el +1 de arriba surge de que en el enunciado se enumeran desde el 1 y nosotros enumeramos desde 0$
+		\State $hayAlgunoVivo \gets \neg(indiceDeMayorXQueMata(t, indiceDeObjetivo, e) == 0)$ \Comment $\mathcal{O}(1)$
+		\State $indiceDeObjetivoPorArea \gets indiceDeMayorXQueMata(t, indiceDeObjetivo, e) - 1$ \Comment $\mathcal{O}(1)$
+		\State genkidamasUtilizadas++ \Comment $\mathcal{O}(1)$
+	\EndWhile
+	\State $std::cout << genkidamasUtilizadas << std::endl$
+	\State $int~ h \gets 0$
+	\While{$h < genkidamasUtilizadas$}
+			\State $std::cout << atacados[h]$
+			\State $h++$
+			\If{$h < genkidamasUtilizadas$}
+					\State $std::cout << " "$
+			\EndIf
+	\EndWhile
+	\State $std::cout << std::endl$
+\EndFunction
+\end{algorithmic}
+\underline{Complejidad:} $\mathcal{O}(indiceDeObjetivo)$\\
+    
+\end{algorithm}
 
+\newpage
 \subsection{Experimentacion}
 \begin{verbatim}
 \end{verbatim}
