@@ -7,40 +7,29 @@
 using namespace std;
 
 // random tuple generator
-void randomInstanceGenerator(int s, int n, ofstream &file);
+void randomInstanceGenerator(int n, ofstream &file);
 
 int main() {
-    int s, n;
-    cout << "Ingrese un número para limitar los ejes x e y" << endl;
-    cin >> s;
-    cout << "Ingrese el tamaño de la entrada a ser generada" << endl;
+    int n;
+    cout << "Ingrese el tamaño de la entrada a ser generada." << endl;
     cin >> n;
-    while (n == 0) {
-        cout << "0 es un caso demasiado trivial :)" << endl;
-        cin >> n;
-    }
     ofstream file;
-    string fileName = "instancia" + to_string(s) + ".txt";
+    string fileName = "instancia" + to_string(n) + ".txt";
     file.open(fileName, fstream::out);
-    randomInstanceGenerator(s, n, file);
+    randomInstanceGenerator(n, file);
+    cout << "La instancia fue generada con éxito bajo el nombre instancia"+to_string(n)+".txt" << endl;;
     file.close();
     return 0;
 }
 
-void randomInstanceGenerator(int s, int n, ofstream &file) {
+void randomInstanceGenerator(int n, ofstream &file) {
     // random seed
     srand(time(NULL));
-    int T = rand() %s;
+    int T = rand() %10000;
     file << n << " " << T << endl;
-    if (s == 0) {
-        // some particular case
-        file << "algunaInstanciaParticular" << endl;
-    } else {
-        // randomized cases
-        for (int i = 0; i < n; i++) {
-            int x = rand() %s;
-            int y = rand() %s;
-            file << x << " " << y << endl;
-        }
+    for (int i = 0; i < n; i++) {
+        int x = rand() %1000;
+        int y = rand() %1000;
+        file << x << " " << y << endl;
     }
 }
