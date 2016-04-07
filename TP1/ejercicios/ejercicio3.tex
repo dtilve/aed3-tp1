@@ -53,14 +53,107 @@ Una posible solución óptima sería lanzar 2 Kamehameha, 1 que mate a 3 android
 La idea del algoritmo es que recursivamente vaya creando todas las combinaciones de rectas. Esto lo logramos utilizando una función principal, Kamehameha, a la que recurrimos y 2 funciones, una que se fija si un androide puede ser atacado con un Kamehameha ya lanzado (si esta alineado con algun con algun otro grupo de androides ya atacados) y vuelve a llamar a la función principal con los nuevos valores una vez por cada grupo con el que esta alineado este androide y otra función que comienza un nuevo ataque con ese androide y vuelve a llamar a la función principal. De esta forma, probando con un enemigo, volviendo atras, probando con el siguiente, volviendo atras y asi sucesivamente hasta probar con todos los enemigos, podemos generar todas las posibles combinaciones de líneas. Lo único que resta es verificar cual de estas es la óptima. Para conseguirlo, cada vez que generamos una solución completa, verificamos su tamaño (su acantidad de líneas) y la guardamos si es la menor hasta el momento, sino la descartamos.
 Para mejorar el tiempo de ejecución decidimos agregar un a poda que descarta soluciones que estan siendo generadas en el momento que su tamaño supera el tamaño de la solución minima alamacenada, ya que sabemos que si o si es mayor o igual a la que ya tenemos, por lo tanto no nos sirve.
 
-\subsection{Pseudocódigo}
-\begin{verbatim}
-\end{verbatim}
-
 \subsection{Cota de complejidad}
-\paragraph{Como ya explicamos, usamos recursividad y 2 funciones. En cada llamado recursivo usamos las 2 funciones. La que genera un nuevo ataque es O(1) ya que hace una cantidad acotada de operaciones O(1). La otra, verifica si un enemigo esta alineado con los otros una vez por cada ataque realizado hasta el momento. Lala cantidad de ataques es acotada, ya que como cualqueir par de puntos puede ser unido con una recta, la cantidad de ataques o rectas necesarios es menor o igual a $n/2$, siendo $n$ la cantidad total de enemigos. De esta forma vemos que esta función es O($n/2$).
+Sabemos que la cantidad de posibles soluciones para una entrada de $n$ androides es $n!$ ya que es la cantidad de posibles combinaciones de androides. Por lo tanto, la cantidad de hojas de nuestro árbol de recursión, es decir la cantidad de soluciones posibles, esta acotada por $n!$ ya que no se llega a la misma solución más de una vez.
 
-}
+Por como planteamos la resolución del poroblema, por cada solución que generamos, volvemos atras y reutilizamos lo ya calculado para generar todas las posibles, de esta forma el árbol las hojas hojas de nuestro árbol tienen siempre al menos un hermano. Suponiendo el peor caso, donde cada hoja tiene solamente un hermano, como cada sub solución es una solucion posible de un problema de menor tamaño, podemos asumir que todo nodo tiene soloamente un hermano, convirtiendo a nuestro árbol de recursión en un árbol binario. Teniendo $n!$ hojas y siendo la cantidad total de nodos $= (($\#$hojas)*2 - 1)$ nos da que la cantidad de nodos es del orden de $2*n!$ por lo tanto la complejidad del algoritmo termina siendo $\mathcal{O}(n!)$.
+
+\subsection{Pseudocódigo}
+
+\begin{algorithm}
+\caption{Kamehameha}
+\begin{algorithmic}
+  \Function{Kamehameha}{$enemigos$: listaPos, $ataques$: Kamehamehas, $nroAtaque$: int} 
+	\If{$minimoGlobal$ $\leq$ size($ataques$)} \Comment $\mathcal{O}(1)$
+		\State return \Comment $\mathcal{O}(1)$
+	\EndIf
+	\If{size($enemigos$) $=$ $0$)} \Comment $\mathcal{O}(1)$
+		\If{$minimoGlobal$ $>$ size($ataques$)}\Comment $\mathcal{O}(1)$
+			\State $minimoGlobal \gets$ size($ataques$) \Comment $\mathcal{O}(1)$ 		
+			\State $mejorConfiguracion \gets ataques$ \Comment $\mathcal{O}(1)$
+		\EndIf
+	\Else
+		\State $enemigo \gets enemigos[0]$ \Comment $\mathcal{O}(1)$
+		\State erase($enemigo$, $enemigos$) \Comment $\mathcal{O}($size($enemigos$))
+		\State AtacarEnAtacados($enemigo$, $enemigos$, $ataques$, $nroAtaques$)	\Comment $\mathcal{O}(nroAtaques)$
+		\State AtacarEnNuevoAtaque($enemigo$, $enemigos$, $ataques$, $nroAtaques$) \Comment $\mathcal{O}(1)$
+		\State insert($enemigo$, $enemigos$) \Comment $\mathcal{O}($size($enemigos$))
+\EndIf
+\EndFunction
+\end{algorithmic}
+\underline{Complejidad:} $\mathcal{O}(n!)$\\
+    
+\end{algorithm}
+
+\begin{algorithm}
+\caption{AtacarEnAtacados}
+\begin{algorithmic}
+  \Function{AtacarEnAtacados}{$enemigo$: posicion, $restoEnemigos$: listaPos, $ataques$: Kamehamehas, $nroAtaque$: int}
+\State $i \gets 0$ \Comment $\mathcal{O}(1)$
+\While{$i \leq nroAtque$} \Comment $\mathcal{O}(nroAtaques)$
+	\State $atacados \gets ataques[i]$ \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+	\If{size($atacados$) $=$ $0$} \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+		\State $comenzarAtaque \gets $nuevaListaPos() \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+		\State pushBack($enemigo, comenzarAtque$) \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+		\State $ataque[i] \gets 	comenzarAtaque$ \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+		\State Kamehameha($restoEnemigos$, $ataques$, $nroAtaques$) \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+		\State $restablecerAtaque \gets $nuevaListaPos() \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+		\State $ataque[i] \gets 	restablecerAtaque$ \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+	\ElsIf{Alineados($atacados$, $enemigo$)} \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+		\State pushBack($enemigo$, $ataque[i]$) \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+		\State Kamehameha($restoEnemigos$, $ataques$, $nroAtaques$) \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+		\State popBack($ataque[i]$) \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+	\EndIf
+	\State $i \gets i + 1$ \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+\EndWhile
+\EndFunction
+\end{algorithmic}
+\underline{Complejidad:} $\mathcal{O}(nroAtaques)$\\
+    
+\end{algorithm}
+ \newpage
+
+\begin{algorithm}
+\caption{AtacarEnNuevoAtaque}
+\begin{algorithmic}
+  \Function{AtacarEnNuevoAtaque}{$enemigo$: posicion, $restoEnemigos$: listaPos, $ataques$: Kamehamehas, $nroAtaque$: int}
+
+\If{size($ataque[nroAtaque]$) $>$ $0$} \Comment $\mathcal{O}(1)$
+	\State $comenzarAtaque \gets $nuevaListaPos() \Comment $\mathcal{O}(1)$
+	\State pushBack($enemigo, comenzarAtque$) \Comment $\mathcal{O}(1)$
+	\State pushBack($comenzarAtaque, ataques$) \Comment $\mathcal{O}(1)$
+	\State $nroAtaque \gets nroAtaque + 1$ \Comment $\mathcal{O}(1)$
+	\State Kamehameha($restoEnemigos$, $ataques$, $nroAtaques$) \Comment $\mathcal{O}(1)$
+	\State $nroAtaque \gets 	nroAtaque - 1$ \Comment $\mathcal{O}(1)$
+	\State popBack($ataque$) \Comment $\mathcal{O}(1)$
+\EndIf
+
+\EndFunction
+\end{algorithmic}
+\underline{Complejidad:} $\mathcal{O}(1)$\\
+\end{algorithm}
+
+\begin{algorithm}
+\caption{Alineados}
+\begin{algorithmic}
+  \Function{Alineados}{$atacados$: kamehameha, $enemigo$: posicion}{Bool} 
+  	\If{size($atacados$) $\leq$ $1$} \Comment $\mathcal{O}(1)$
+  		\State return $true$ \Comment $\mathcal{O}(1)$
+  	\Else
+  		\State $primero \gets atacados[0]$ \Comment $\mathcal{O}(1)$
+  		\State $segundo \gets atacados[1]$ \Comment $\mathcal{O}(1)$
+  		\State $termino1 \gets segundo[1] - primero[1]$ \Comment $\mathcal{O}(1)$
+  		\State $termino2 \gets enemigo[0] - primero[0]$ \Comment $\mathcal{O}(1)$
+    		\State $termino3 \gets enemigo[1] - primero[1]$ \Comment $\mathcal{O}(1)$
+      	\State $termino4 \gets segundo[0] - primero[0]$ \Comment $\mathcal{O}(1)$
+      	\State return $termino1*termino2 = termino3*termino4$ \Comment $\mathcal{O}(1)$ 
+  	\EndIf
+\EndFunction
+\end{algorithmic}
+\underline{Complejidad:} $\mathcal{O}(1)$\\
+\end{algorithm}
+
+
 
 \subsection{Extracto importante de código}
 \begin{lstlisting}
