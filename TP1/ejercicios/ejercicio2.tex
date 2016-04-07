@@ -80,8 +80,8 @@ Finalmente queda la situación mostrada en la Figura 4 y se dispara una tercera 
 \end{minipage}
 \end{figure}
 \\
-\par{Ahora veamos cómo sería este proceso con $T = 2$.
-De vuelta se comienza queriendo destruir al objetivo en A. Como se ve en la Figura 5, disparar a C no destruye a A pero disparar a B sí. Así, morirán los androides situados en los puntos incluidos en la región sombreada naranja en la Figura 6 (el área de impacto A(B, 2)).}
+Ahora veamos cómo sería este proceso con $T = 2$.
+De vuelta se comienza queriendo destruir al objetivo en A. Como se ve en la Figura 5, disparar a C no destruye a A pero disparar a B sí. Así, morirán los androides situados en los puntos incluidos en la región sombreada naranja en la Figura 6 (el área de impacto A(B, 2)).
 \par{Finalmente queda la situación mostrada en la Figura 7 en la que el objetivo es destruir al objetivo de E y se terminará disparando a F eliminando a los dos androides restantes.}
 \par{En este caso se habrá destruido a todos los androides utilizando dos genkidamas.}\\
 
@@ -170,27 +170,27 @@ Si sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y
   	\State $int~[~]~ atacados$ \Comment $\mathcal{O}(1)$
   	\State $int ~genkidamasUtilizadas \gets 0$ \Comment $\mathcal{O}(1)$
 	\State $int ~indiceDeObjetivoPorArea \gets n - 1$ \Comment $\mathcal{O}(1)$
-	\State $ el de arriba es aquel al que quiero que le llegue la onda expansiva$
+	\State $ //~el~ de~ arriba~ es~ aquel~ al~ que~ quiero~ que~ le~ llegue~ la~ onda~ expansiva$
 	\State $bool ~hayAlgunoVivo \gets true$ \Comment $\mathcal{O}(1)$
 	\While{$hayAlgunoVivo$} \Comment $\mathcal{O}(indiceDeObjetivo)$
-		\State $el de abajo es aquel al que le voy a tirar la bomba$
-		\State $int indiceDeMenorYQueLoMata(t, indiceDeObjetivoPorArea, e)$ \Comment $\mathcal{O}(indiceDeObjetivoPorArea)$
-		atacados.push_back(indiceDeObjetivo + 1);
-		\State $el +1 de arriba surge de que en el enunciado se enumeran desde el 1 y nosotros enumeramos desde 0$
-		\State $hayAlgunoVivo \gets \neg(indiceDeMayorXQueMata(t, indiceDeObjetivo, e) == 0)$ \Comment $\mathcal{O}(1)$
-		\State $indiceDeObjetivoPorArea \gets indiceDeMayorXQueMata(t, indiceDeObjetivo, e) - 1$ \Comment $\mathcal{O}(1)$
+		\State $ 	//~el~ de~ abajo ~es~ aquel~ al~ que~ le~ voy~ a ~tirar~ la~ bomba$
+		\State $int~indiceDeMenorYQueLoMata(t, indiceDeObjetivoPorArea, e)$ \Comment $\mathcal{O}(indiceDeObjetivoPorArea)$
+		\State $agregarAtras(atacados, indiceDeObjetivo + 1)$ \Comment $\mathcal{O}(1)$
+		\State $		//~el +1 ~de~ arriba~ surge~ de~ que~ en~ el~ enunciado ~se~ enumeran~ desde~ el~ 1 ~$
+		\State $	   y~ nosotros~ enumeramos~ desde~ 0$
+		\State $hayAlgunoVivo \gets \neg(indiceDeMayorXQueMata(t, indiceDeObjetivo, e) == 0)$ \Comment $\mathcal{O}(indiceDeObjetivo)$
+		\State $indiceDeObjetivoPorArea \gets indiceDeMayorXQueMata(t, indiceDeObjetivo, e) - 1$ \Comment $\mathcal{O}(indiceDeObjetivo)$
 		\State genkidamasUtilizadas++ \Comment $\mathcal{O}(1)$
 	\EndWhile
-	\State $std::cout << genkidamasUtilizadas << std::endl$
+	\State $imprimir ~genkidamasUtilizadas$
 	\State $int~ h \gets 0$
 	\While{$h < genkidamasUtilizadas$}
-			\State $std::cout << atacados[h]$
+			\State $imprimir ~atacados[h]$
 			\State $h++$
 			\If{$h < genkidamasUtilizadas$}
-					\State $std::cout << " "$
+					\State $imprimir ~"~"~$
 			\EndIf
 	\EndWhile
-	\State $std::cout << std::endl$
 \EndFunction
 \end{algorithmic}
 \underline{Complejidad:} $\mathcal{O}(indiceDeObjetivo)$\\
