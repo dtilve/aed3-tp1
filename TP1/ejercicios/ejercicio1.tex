@@ -37,47 +37,18 @@
 \section{Kaio Ken}
 
 \subsection{Descripcion del problema}
-\begin{verbatim}
-El problema se trata de analizar la cantidad de peleas que debe haber entre un grupo de
+\par{El problema se trata de analizar la cantidad de peleas que debe haber entre un grupo de
 guerreros, si en cada pelea hay dos bandos a los que pueden pertenecer, para que todos
-peleen con todos y en cada pelea esten en uno de los dos bandos. Matemáticamente lo que
+peleen con todos y en cada pelea estén en uno de los dos bandos. Matemáticamente lo que
 proponemos para resolver en problema es: un conjunto, que se divide en dos una cantidad
 finita de veces tal que todos los elementos hallan estado en el conjunto opuesto a todos
-los demás elementos en elgun momento.
-	Observamos que la cantidad de peleas es logarítmica respecto a la cantidad de guerreros
-o elementos del conjunto principal: si n es potencia de 2 en log_2(n) y si n no es
-potencia de 2 en parte entera(log_2(n))+1. Esto es porque en la primer pelea, si
-establecemos que n/2 elementos pertenecen al bando 1 y n/2 elementos pertenecen al bando
-2, ya tenemos que cada elemento peleo con la mitad del conjunto. Podemos observar que
-resta que cada elemento pelee contra sus compañeros de equipo actual. Por lo que,
-repetimos el paso anterior para cada conjunto de n/2 elementos. Y así vamos a obtener en
-log_2(n) peleas, que cada elemento pelea con todos los demás, porque el conjunto de n
-elementos se “divide” en dos cada vez; decimos “divide” porque los equipos son dos
-siempre: bando 1 y bando dos, pero uso la expresión para explicar cómo obtenemos el
-resultado que todos peleen con todos. 
-	Debemos notar que si la cantidad de elementos es potencia de 2, la cantidad de peleas es
-exactamente el logaritmo en base 2 de n. Pero si n no es potencia de 2, voy a necesitar
-una pelea más para que todos los elementos completen las peleas, es decir que todos
-terminen de pelear. Esto sucede porque la cantidad de elementos se encuentra entre 2
-potencias de 2 (el. Entre 16=2^n y 32=2^(n+1)) cualesquiera, por lo tanto, las peleas
-anteriores dividieron a los grupos n veces, quedan menos de la mitad de elementos pelear
-con la anterior mitad.
-\end{verbatim}
-	 
+los demás elementos en elgun momento.}
+\par{Observamos que la cantidad de peleas es logarítmica respecto a la cantidad de guerreros o elementos del conjunto principal: si n es potencia de 2 la cantidad de peleas es $\log(n)$ y si n no es potencia de 2 es $\ceil*{\log_2 n}$. Esto es porque en la primer pelea, si establecemos que $\frac{n}{2}$ elementos pertenecen al bando 1 y $\frac{n}{2}$ elementos pertenecen al bando 2, ya tenemos que cada elemento peleó con la mitad del conjunto original. Podemos observar que resta que cada elemento pelee contra sus compañeros de equipo actual. Por lo que, repetimos el paso anterior para cada conjunto de $\frac{n}{2}$ elementos. Y así en $\log_2 n$ peleas cada guerrero habrá peleado con todos los demás, porque el conjunto de n elementos se “divide” en dos cada vez; decimos “divide” porque los equipos son dos siempre: bando 1 y bando 2, pero uso la expresión para explicar cómo obtenemos el resultado de que todos peleen con todos.}
+\par{Debemos notar que si la cantidad de elementos es potencia de 2, la cantidad de peleas es exactamente $\log_2 n$. Pero si n no es potencia de 2, voy a necesitar una pelea más para que todos los elementos completen las peleas, es decir que todos terminen de pelear. Esto sucede porque la cantidad de elementos se encuentra entre dos
+potencias de 2 (entre $2^{\floor*{\log_2 n}}$ y $2^{\ceil*{\log_2 n}}$), es decir que con ${\floor*{\log_2 n}}$ no alcanza y ${\ceil*{\log_2 n}}$ es el menor número que seguro logra que todos peleen contra todos.}
 
 
 \subsection{Pseudocódigo}
-\begin{verbatim}
-Datos de entrada: n.
-Generamos una matriz M de n * (log(n)+1) posiciones.
-En un ciclo que itera i de 0 a log(n) inclusive:
-	En un ciclo que itera j de 0 a n-1 inclusive:
-		Para la iteracion i asignamos M(i,j) grupo 1 y dos alternadamente a las posiciones,
-cambiando de grupo cada 2^i casillas.
-Imprimimos i. Luego, imprimimos la matriz.
-\end{verbatim}
-
-
 
 \begin{algorithm}
 \caption{inicializarMatriz}
@@ -140,17 +111,16 @@ Imprimimos i. Luego, imprimimos la matriz.
 	\State int $i \gets 0$ \Comment $\mathcal{O}(1)$
 	\State int j \Comment $\mathcal{O}(1)$
 	\\
-	\State $cout << filas << endl$ \Comment $\mathcal{O}(1)$
+	\State imprimir ~filas \Comment $\mathcal{O}(1)$
 	\While{$i < filas$} \Comment $\mathcal{O}(filas) = \mathcal{O}(\ceil*{\log_2 n})$
 		\State $j \gets 0$ \Comment $\mathcal{O}(1)$
 		\While{$j < n$} \Comment $\mathcal{O}(n)$
-			\State $cout << m[i][j]+1$ \Comment $\mathcal{O}(1)$
+			\State imprimir ~$m[i][j]+1$ \Comment $\mathcal{O}(1)$
 			\State $j++$ \Comment $\mathcal{O}(1)$
 			\If{$j < n$} \Comment $\mathcal{O}(1)$
-				\State $std::cout << " "$ \Comment $\mathcal{O}(1)$
+				\State imprimir ~"~ " \Comment $\mathcal{O}(1)$
 			\EndIf
 		\EndWhile
-		\State $cout << endl$ \Comment $\mathcal{O}(1)$
 		\State $i++$ \Comment $\mathcal{O}(1)$
 	\EndWhile
 \EndFunction
@@ -162,27 +132,34 @@ Imprimimos i. Luego, imprimimos la matriz.
 
 \newpage
 \subsection{Cota de complejidad}
-\begin{verbatim}
-Como está detallado en el Algoritmo 3, la complejidad del algoritmo propuesto para KaioKen
-resulta
-\end{verbatim}
-$\mathcal{O}(\log _{2} n * n)$\\
+\par{Como está detallado en el Algoritmo 3, la complejidad del algoritmo propuesto para KaioKen
+resulta $\mathcal{O}(\log _{2} n * n)$}
 
-\subsection{Experimentacion}
-\begin{verbatim}
-Realizamos la medicion del tiempo de ejecusion de la parte del código que calcula la solucion:
-Tamaño de la entrada | Tiempo
-1			1e-06
-10			3e-06
-100			7e-06
-1000			5.6e-05
-10000			0.000699
-100000			0.014499
-1000000			seg fault: este tamaño de entrada supera la capacidad de la memoria para ejecutar el programa.
+\subsection{Experimentación}
 
-el grafico asociado a este expirimento es:
+Realizamos la medición del tiempo de ejecución de la parte del código que calcula la solución:
+\begin{table}[h!]
+\centering
+
+\label{my-label}
+\begin{tabular}{cc}
+\hline
+\multicolumn{1}{|c|}{n (Tamaño de la entrada)} & \multicolumn{1}{c|}{Tiempo}                                                                                                                                    \\ \hline
+\multicolumn{1}{|c|}{1}                        & \multicolumn{1}{c|}{1e-06}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{10}                       & \multicolumn{1}{c|}{$3 \times 10^{-6}$}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{100}                      & \multicolumn{1}{c|}{7e-06}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{1000}                     & \multicolumn{1}{c|}{5.6e-05}                                                                                                                                   \\ \hline
+\multicolumn{1}{|c|}{10000}                    & \multicolumn{1}{c|}{$7 \times 10^{-4}$}                                                                                                                                  \\ \hline
+\multicolumn{1}{|c|}{100000}                   & \multicolumn{1}{c|}{$1.45 \times 10^{-2}$}                                                                                                                                  \\ \hline
+\multicolumn{1}{|c|}{1000000}                  & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}seg fault: este tamaño de entrada\\ supera la capacidad de la memoria\\ para ejecutar el programa\end{tabular}} \\ \hline
+                                                                                                                                          
+\end{tabular}
+\caption{Tabla que muestra los tiempos de ejecución correspondientes a distintos tamaños de entrada.}
+\end{table}
+
+El gráfico asociado a este experimento es:
 %%insertar grafico---------
-\end{verbatim}
+
 
 %lo dejo aca un poco
 
