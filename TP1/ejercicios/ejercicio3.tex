@@ -309,8 +309,9 @@ int buscarPosicion(const posicion_t& enemigo) {
 }
 \end{lstlisting}
 
-\subsection{Experimentacion}
+\subsection{Experimentación}
 Experimentando con el algoritmo nos dimos cuenta de que el tiempo de ejecución variaba un poco dependiendo del momento particular en que se corriera el programa, de la distribución de los puntos o del funcionamiento de la máquina. Es por esto que decidimos ejecutarlo 5 veces para cada grupo de n puntos y tomar al promedio de los mismos como una referencia más confiable. Lo hicimos con $n=1$ a $10$. 
+\par{A continuación se exponen la tabla y el gráfico resultante de esas mediciones}
 \\
 \begin{table}[h]
 \centering
@@ -336,7 +337,7 @@ Experimentando con el algoritmo nos dimos cuenta de que el tiempo de ejecución 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=12cm, height=9cm]{HameTime}
-  \caption{Tiempos de ejecución para distintas entradas. La curva azul es la curva de la complejidad, $n!$, la línea verde es mejor caso, la roja caso promedio y la amarilla peor caso.}
+  \caption{Tiempos de ejecución para distintas entradas. La curva azul es la curva de la complejidad, $n!$, la línea verde es mejor caso, la roja caso aleatorio y la amarilla peor caso.}
 \end{figure}
 
 \newpage
