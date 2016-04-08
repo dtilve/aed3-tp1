@@ -38,7 +38,7 @@
 \subsection{Descripción del problema}
 
 El problema a resolver es el siguiente:
-Tenemos androides ubicados en una secuencia de puntos $(x,y)$ en el espacio para los cuales si la coordenada $x$ de un punto es mayor a la de otro punto entonces la coordenada $y$ del segundo punto es menor. Dado un valor $T$, se desea calcular la mínima cantidad de genkidamas a tirar para destruir a todos los androides. Si se tira a un punto $(x_{0},y_{0})$ la genkidama alcanza a destruir a todos los puntos que posean $x \leq x_{0} + T$ y posean $y \leq y_{0} + T$.\\
+Tenemos androides ubicados en una secuencia de puntos $(x,y)$ en el espacio para los cuales si la coordenada $x$ de un punto es mayor a la de otro punto entonces la coordenada $y$ del segundo punto es menor. Dado un valor $T$, se desea calcular la mínima cantidad de genkidamas a tirar para destruir a todos los androides. Si se tira a un punto $(x_{0},y_{0})$ la genkidama alcanza a destruir a todos los puntos que posean $x \leq x_{0} + T$ y posean $y \leq y_{0} + T$.
 
 \subsection{Ideas para desarrollar el algoritmo}
 
@@ -57,12 +57,14 @@ Definamos el área de impacto como
 \item[•] Recorrer hasta eventualmente encontrar un androide posicionado en un punto $K$ al que si se lanzara una Genkidama ésta no matara al androide en A. En este caso habría que disparar al androide situado en la posición con la coordenada $y$ inmediatamente anterior a la de $K$, llamémoslo J, y calcular $J_{x}+T$ para ver cuál sería el objetivo de mayor coordenada $y$ que quedara vivo  y repetir el proceso como si este fuera el nuevo $A$. Si no quedara ningún objetivo por eliminar entonces ya no habría necesidad de seguir disparando Genkidamas.
 \end{itemize}
 
+\par{Este algoritmo es un algoritmo goloso: se elige al androide vivo de mayor coordenada $y$, llamémoslo A, y para este se elige al androide ubicado en el punto de menor coordenada $y$ al que al tirarle una genkidama, ésta destruya a A.}
+
 \subsection{Ejemplos}
 
-Supongamos que tenemos los puntos mostrados en la Figura 1 y $T = 1$.\\
+Supongamos que tenemos los puntos mostrados en la Figura 1 y $T = 1$.
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=7cm, height=6cm]{EjemploInicialUtil}
+  \includegraphics[width=7cm, height=5.5cm]{EjemploInicialUtil}
   \caption{Puntos distribuidos inicialmente.}
 \end{figure}
 
@@ -207,6 +209,29 @@ Cuando se busca un enemigo a atacar, se verifica que al atacarlo se maten todos 
 Grafico
 %%aca se agrega el grafico
 \end{verbatim}
+\begin{table}[h]
+\centering
+\label{my-label}
+\begin{tabular}{cc}
+\hline
+\multicolumn{1}{|c|}{n (Tamaño de la entrada)} & \multicolumn{1}{c|}{Tiempo (segundos)} \\ \hline
+\multicolumn{1}{|c|}{5}                        & \multicolumn{1}{c|}{$1.26 \times 10^{-5}$}         \\ \hline
+\multicolumn{1}{|c|}{10}                        & \multicolumn{1}{c|}{$3.50 \times 10^{-5}$}            \\ \hline
+\multicolumn{1}{|c|}{15}                        & \multicolumn{1}{c|}{$4.58 \times 10^{-5}$}               \\ \hline
+\multicolumn{1}{|c|}{20}                        & \multicolumn{1}{c|}{$6.75 \times 10^{-5}$}            \\ \hline
+\multicolumn{1}{|c|}{25}                        & \multicolumn{1}{c|}               {$8.30 \times 10^{-4}$}  \\ \hline
+\multicolumn{1}{|c|}{30}                        & \multicolumn{1}{c|}                  {$8.80 \times 10^{-4}$}  \\ \hline
+\multicolumn{1}{|c|}{35}                        & \multicolumn{1}{c|}{$1.35 \times 10^{-4}$}         \\ \hline
+\multicolumn{1}{|c|}{40}                        & \multicolumn{1}{c|}{$1.63 \times 10^{-5}$}            \\ \hline
+\multicolumn{1}{|c|}{45}                        & \multicolumn{1}{c|}{$1.86 \times 10^{-5}$}               \\ \hline
+\multicolumn{1}{|c|}{50}                        & \multicolumn{1}{c|}{$1.95 \times 10^{-5}$}            \\ \hline
+\multicolumn{1}{|c|}{55}                        & \multicolumn{1}{c|}               {$2.43 \times 10^{-4}$}  \\ \hline
+\multicolumn{1}{|c|}{60}                        & \multicolumn{1}{c|}                  {$2.51 \times 10^{-4}$}  \\ \hline
+
+
+\end{tabular}
+\caption{Tabla que muestra los tiempos de ejecución correspondientes a distintos tamaños de entrada (con T = 1).}
+\end{table}
 
 \newpage
 \subsection{Apéndice: código de Genkidama}
