@@ -58,6 +58,8 @@ Sabemos que la cantidad de posibles soluciones para una entrada de $n$ androides
 
 Por cómo planteamos la resolución del problema, por cada solución que generamos, volvemos atrás y reutilizamos lo ya calculado para generar todas las posibles. De esta forma las hojas de nuestro árbol tienen siempre al menos un hermano. Suponiendo el peor caso, donde cada hoja tiene solamente un hermano, como cada sub solución es una solución posible de un problema de menor tamaño, podemos asumir que todo nodo tiene solamente un hermano, convirtiendo a nuestro árbol de recursión en un árbol binario. Teniendo $n!$ hojas y siendo la cantidad total de nodos $= (($\#$hojas)*2 - 1)$ nos da que la cantidad de nodos es del orden de $2*n!$ por lo tanto la complejidad del algoritmo termina siendo $\mathcal{O}(n!)$.
 
+Teniendo en cuenta las podas el mejor caso ocurre cuando están todos los androides alineados ya que al comparar el tamaño de las soluciones se descartan todas las que tienen más que un Kamehameha. Por otro lado, el peor caso se da cuando no hay más de 2 androides para una misma recta debido a que las soluciones en su mayoría van a tener la misma cantidad de rectas.
+
 \subsection{Pseudocódigo}
 listaPos $= lista<(int,int)>$ , kamehamehas $= lista<(listaPos)>$
 
