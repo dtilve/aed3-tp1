@@ -207,6 +207,10 @@ Como ya se ha explicado, el algoritmo Genkidama tiene complejidad temporal $\mat
 
 \newpage
 \subsection{Experimentación}
+Para la experimentación medimos los tiempos de ejecución para distintos tamaños de entrada y lo hicimos varias veces para cada tamaño de entrada para tener resultados más confiables. Este proceso lo realizamos para las situaciones que creíamos que daban lugar a mejor y peor caso y verificamos que efectivamente eran las situaciones que pensábamos.
+\par{Además hicimos un generador de instancias aleatorias y medimos los tiempos de ejecución para muchas entradas generadas aleatoriamente y efectivamente eran tiempos para tamaños de entrada grandes solían estar comprendidos entre los tiempos de ejecución para mejor caso y para peor caso.}
+\par{A continuación se exponen la tabla y el gráfico resultante de esas mediciones}\\
+
 \begin{table}[h!]
 \centering
 \label{my-label}
@@ -230,6 +234,11 @@ Como ya se ha explicado, el algoritmo Genkidama tiene complejidad temporal $\mat
 \end{tabular}
 \caption{Tabla que muestra los tiempos de ejecución correspondientes a distintos tamaños de entrada (con T = 1).}
 \end{table}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=12cm, height=9cm]{GenkiTime}
+  \caption{Tiempos de ejecución para distintas entradas. La curva azul es la curva de la complejidad, $n$, la línea verde es mejor caso, la roja caso aleatorio y la amarilla peor caso.}
+\end{figure}
 
 \newpage
 \subsection{Apéndice: código de Genkidama}
