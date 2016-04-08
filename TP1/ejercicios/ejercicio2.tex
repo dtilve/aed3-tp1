@@ -146,7 +146,7 @@ De vuelta se comienza queriendo destruir al objetivo en A. Como se ve en la Figu
     
 \end{algorithm}
 
-\begin{algorithm}
+\begin{algorithm}[h!]
 \caption{IndiceDeMayorXQueMata}
 \begin{algorithmic}
   \Function{IndiceDeMayorXQueMata}{t: int, indiceDeObjetivo: int, e: $Arreglo<Tupla<int,int>>$} $\to j$ : \texttt{int}
@@ -162,9 +162,8 @@ De vuelta se comienza queriendo destruir al objetivo en A. Como se ve en la Figu
 \underline{Complejidad:} $\mathcal{O}(indiceDeObjetivo)$\\
     
 \end{algorithm}
-\newpage
 
-\begin{algorithm}
+\begin{algorithm}[h!]
 \caption{Genkidama}
 \begin{algorithmic}
   \Function{Genkidama}{t: int, n: int, e: $Arreglo<Tupla<int,int>>$}
@@ -201,15 +200,14 @@ Cuando se busca un enemigo a atacar, se verifica que al atacarlo se maten todos 
     
 \end{algorithm}
 
+\subsection{Análisis de complejidad}
+Como ya se ha explicado, el algoritmo Genkidama tiene complejidad temporal $\mathcal{O}(n)$, pero también podemos afirmar que tiene complejidad temporal $\mathcal{\theta}(n)$ porque para cada androide chequea o  bien si la genkidama tirada en esa ubicación mata a otro o bien si su ubicación es alcanzada por otra explosión. Esto da una cantidad de chequeos de al menos n pues hay n androides.
+\par{El mejor caso se tiene cuando todos los androides mueren con una sola genkidama utilizada pues luego de fijar un objetivo sólo se realiza un chequeo para cada uno de los $n-1$ androides.}
+\par{El peor caso se tiene cuando para matar a cada androide se requiere una genkidama distinta y por tanto se hacen dos chequeos para destruir cada uno de los $n-1$ androides.}
+
 \newpage
 \subsection{Experimentación}
-\begin{verbatim}
-
-
-Grafico
-%%aca se agrega el grafico
-\end{verbatim}
-\begin{table}[h]
+\begin{table}[h!]
 \centering
 \label{my-label}
 \begin{tabular}{cc}

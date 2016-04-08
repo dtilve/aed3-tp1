@@ -36,7 +36,7 @@
 
 \section{Kaio Ken}
 
-\subsection{Descripcion del problema}
+\subsection{Descripción del problema}
 \par{El problema se trata de analizar la cantidad de peleas que debe haber entre un grupo de
 guerreros, si en cada pelea hay dos bandos a los que pueden pertenecer, para que todos
 peleen con todos y en cada pelea estén en uno de los dos bandos. Matemáticamente lo que
@@ -114,8 +114,10 @@ potencias de 2 (entre $2^{\floor*{\log_2 n}}$ y $2^{\ceil*{\log_2 n}}$), es deci
 
 \newpage
 \subsection{Cota de complejidad}
-\par{Como está detallado en el Algoritmo 3, la complejidad del algoritmo propuesto para KaioKen
-resulta $\mathcal{O}(\log _{2} n * n)$}
+\par{Como está detallado en el Algoritmo 3, la complejidad del algoritmo propuesto para KaioKen resulta $\mathcal{O}(\log _{2} n * n)$ y de hecho también es $\mathcal{\theta}(\log _{2} n * n)$}.
+\par{Este algoritmo no tiene ni mejor ni peor caso dado que siempre se realiza la misma cantidad de operaciones en función de n. Cabe resaltar que en este problema para un determinado tamaño de entrada no se pueden tener diferentes situaciones y el programa siempre lleva a cabo cada instrucción una cantidad fija de veces que depende del n.}
+\par{Como se verá más adelante, esto no es así en el Problema 2, en el que puede haber un mismo tamaño de entrada con situaciones muy distintas y disposiciones de androides totalmente diferentes, dando lugar a un mejor y un peor caso del algoritmo propuesto para resolver ese problema. Como en ese caso la información puede ser distinta para un mismo tamaño de entrada cada instrucción se correrá una cantidad de veces que depende de esa información, dando lugar a mayores y menores tiempos de ejecución para el mismo tamaño de entrada.}
+
 
 \subsection{Experimentación}
 
@@ -142,6 +144,31 @@ Realizamos la medición del tiempo de ejecución de la parte del código que cal
 El gráfico asociado a este experimento es:
 %%insertar grafico---------
 
+
+%lo dejo aca un poco
+
+%\paragraph{ Idea: cada vez que se resuelve una pelea entre grupos, si la misma se da entre dos mitades, ya se consigue que la mitad de los luchadores hayan peleado entre si, quedando pendiente dentro del mismo grupo.}
+
+%\begin{verbatim}
+%p <- 1
+
+%kaioKen (N: int){
+%	kaioKenGeneralizada(N,1)
+%}
+
+%kaioKenGeneralizada (N: int, P: int) {
+%	for (N)
+%		B (P, N)
+%	endfor
+%	p += 1
+%	if (N != 1 v 2)		
+%		kaioKenGeneralizada(ceil(n/2), p)
+%		kaioKenGeneralizada(floor(n/2), p)
+%	endif	
+%}
+%\end{verbatim}
+
+
 \newpage
 
 \subsection{Apéndice: código de KaioKen}
@@ -166,14 +193,7 @@ void kaioKen(int n){
 	int cambio = 0;
 	int x = 0;
 	int m [filas][n];
-	//Inicializamos la matriz en 0
-	for (int h = 0; h < filas; ++h)
-	{
-		for (int q = 0; q < n; ++q)
-		{
-			m[h][q] = 0;
-		}
-	}
+
 	//Distribuimos los guerreros
 	for (int i = 0; i < filas; i++){
 		cambio = pow(2,i);
