@@ -51,23 +51,6 @@ potencias de 2 (entre $2^{\floor*{\log_2 n}}$ y $2^{\ceil*{\log_2 n}}$), es deci
 \subsection{Pseudocódigo}
 
 \begin{algorithm}
-\caption{inicializarMatriz}
-\begin{algorithmic}
-  \Function{InicializarMatriz}{filas: int, columnas: int, matriz: $Arreglo<Arreglo<int>>$}
-	\For{$h \leftarrow 0~..~filas-1$} \Comment $\mathcal{O}(filas)$
-		\For{$q \leftarrow 0~..~columnas-1$} \Comment $\mathcal{O}(columnas)$
-		\State matriz[h][q] = 0 \Comment $\mathcal{O}(1)$
-		\EndFor
-	\EndFor
-
-\EndFunction
-\end{algorithmic}
-\underline{Complejidad:} $\mathcal{O}(filas*columnas)$\\
-    \underline{Justificación:} Hay dos ciclos anidados.
-\end{algorithm}
-
-
-\begin{algorithm}
 \caption{distribuirGuerreros}
 \begin{algorithmic}
   \Function{DistribuirGuerreros}{filas: int, columnas: int, matriz: $Arreglo<Arreglo<int>>$ }
@@ -105,7 +88,6 @@ potencias de 2 (entre $2^{\floor*{\log_2 n}}$ y $2^{\ceil*{\log_2 n}}$), es deci
   \Function{Kaioken}{n: int}
 	\State int $filas \gets \ceil*{\log_2 n}$ \Comment $\mathcal{O}(1)$
 	\State int m[filas][n] \Comment $\mathcal{O}(1)$
-	\State inicializarMatriz(filas, n, m) \Comment $\mathcal{O}(filas*n) = \mathcal{O}(\ceil*{\log_2 n}*n)$
 	\State distribuirGuerreros(filas, n, m) \Comment $\mathcal{O}(filas*n) = \mathcal{O}(\ceil*{\log_2 n}*n)$
 	\\
 	\State int $i \gets 0$ \Comment $\mathcal{O}(1)$
@@ -126,7 +108,7 @@ potencias de 2 (entre $2^{\floor*{\log_2 n}}$ y $2^{\ceil*{\log_2 n}}$), es deci
 \EndFunction
 \end{algorithmic}
 \underline{Complejidad:} $\mathcal{O}(\log _{2} n * n)$\\
-    \underline{Justificación:} $ 2 * \mathcal{O}(\ceil*{\log_2 n}*n)$ + $ \ceil*{\log_2 n} * \mathcal{O}(n)$ = $3*\mathcal{O}(\log _{2} n * n)$ = $\mathcal{O}(\log _{2} n * n)$\\
+    \underline{Justificación:} $ \mathcal{O}(\ceil*{\log_2 n}*n)$ + $ \ceil*{\log_2 n} * \mathcal{O}(n)$ = $2*\mathcal{O}(\log _{2} n * n)$ = $\mathcal{O}(\log _{2} n * n)$\\
 \end{algorithm}
 
 
@@ -144,11 +126,11 @@ Realizamos la medición del tiempo de ejecución de la parte del código que cal
 \label{my-label}
 \begin{tabular}{cc}
 \hline
-\multicolumn{1}{|c|}{n (Tamaño de la entrada)} & \multicolumn{1}{c|}{Tiempo}                                                                                                                                    \\ \hline
-\multicolumn{1}{|c|}{1}                        & \multicolumn{1}{c|}{1e-06}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{n (Tamaño de la entrada)} & \multicolumn{1}{c|}{Tiempo (segundos)}                                                                                                                                    \\ \hline
+\multicolumn{1}{|c|}{1}                        & \multicolumn{1}{c|}{$1 \times 10^{-6}$}                                                                                                                                     \\ \hline
 \multicolumn{1}{|c|}{10}                       & \multicolumn{1}{c|}{$3 \times 10^{-6}$}                                                                                                                                     \\ \hline
-\multicolumn{1}{|c|}{100}                      & \multicolumn{1}{c|}{7e-06}                                                                                                                                     \\ \hline
-\multicolumn{1}{|c|}{1000}                     & \multicolumn{1}{c|}{5.6e-05}                                                                                                                                   \\ \hline
+\multicolumn{1}{|c|}{100}                      & \multicolumn{1}{c|}{$7 \times 10^{-6}$}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{1000}                     & \multicolumn{1}{c|}{$5.6 \times 10^{-5}$}                                                                                                                                   \\ \hline
 \multicolumn{1}{|c|}{10000}                    & \multicolumn{1}{c|}{$7 \times 10^{-4}$}                                                                                                                                  \\ \hline
 \multicolumn{1}{|c|}{100000}                   & \multicolumn{1}{c|}{$1.45 \times 10^{-2}$}                                                                                                                                  \\ \hline
 \multicolumn{1}{|c|}{1000000}                  & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}seg fault: este tamaño de entrada\\ supera la capacidad de la memoria\\ para ejecutar el programa\end{tabular}} \\ \hline

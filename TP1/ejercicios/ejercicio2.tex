@@ -38,7 +38,24 @@
 \subsection{Descripción del problema}
 
 El problema a resolver es el siguiente:
-Tenemos un secuencia de puntos $(x,y)$ en el espacio para los cuales, si la coordenada $x$ de un punto es mayor a la de otro punto, la coordenada en y del segundo punto es menor. Dado un valor $T$, se desea calcular la minima cantidad de genkidamas a tirar para destruir a todos los puntos. Si se tira a un punto $(x_{0},y_{0})$ la genkidama alcanza a destruir a todos los puntos que posean $x \leq x_{0} + T$ y posean $y \leq y_{0} + T$.\\
+Tenemos androides ubicados en una secuencia de puntos $(x,y)$ en el espacio para los cuales si la coordenada $x$ de un punto es mayor a la de otro punto entonces la coordenada $y$ del segundo punto es menor. Dado un valor $T$, se desea calcular la mínima cantidad de genkidamas a tirar para destruir a todos los androides. Si se tira a un punto $(x_{0},y_{0})$ la genkidama alcanza a destruir a todos los puntos que posean $x \leq x_{0} + T$ y posean $y \leq y_{0} + T$.\\
+
+\subsection{Ideas para desarrollar el algoritmo}
+
+Definamos el área de impacto como
+\begin{gather*}
+\textrm{A}:\mathbb{N_{0}}^2 \times \mathbb{N} \rightarrow \mathbb{Z^2}\\
+ \textrm{A}(P,T) = \{ (x, y) \in \mathbb{Z^2} : 0 \leq x \leq P_{x}+T ~ \wedge ~ 0 \leq y \leq P_{y}+T \}
+\end{gather*}
+ es decir, el conjunto de puntos del plano en los que en caso de haber androides estos morirían por la Gendikama tirada en P. Con esta idea de área de impacto se puede pensar que no aporta tener en cuenta el área por sobre el objetivo vivo de mayor coordenada en y.
+\par{Va a haber que eliminar al objetivo situado en A. Se puede tirar una Gendikama al punto A, pero surge la pregunta de si se podría hacer algo mejor. ¿Qué pasa si se dispara a B? Si $ A_{y} \leq B_{y}+T$ entonces el área de impacto A(B,T) incluye al punto A. Así, sería mejor disparar la Gendikama a B que a A dado que como  $A_{x} < B_{x}$ entonces  $A_{x}+T < B_{x}+T$, lo que nos da una idea intuitiva de inclusión de áreas, $A(A,T) \subset A(B,T)$ (nótese que la inclusión es estricta) y podemos decir que diparar a B es más destructivo.}
+\par{Así, volvemos a preguntarnos: ¿Qué pasa si se dispara a C? ¿Esto también mataría a A?}
+\par{Supongamos que sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y podemos tener dos situaciones:}
+
+\begin{itemize}
+\item[•] Recorrer hasta el último punto y que una Gendikama lanzada ahí también elimine al androide situado en A, necesitando sólo un disparo para destruir a todos.
+\item[•] Recorrer hasta eventualmente encontrar un androide posicionado en un punto $K$ al que si se lanzara una Genkidama ésta no matara al androide en A. En este caso habría que disparar al androide situado en la posición con la coordenada $y$ inmediatamente anterior a la de $K$, llamémoslo J, y calcular $J_{x}+T$ para ver cuál sería el objetivo de mayor coordenada $y$ que quedara vivo  y repetir el proceso como si este fuera el nuevo $A$. Si no quedara ningún objetivo por eliminar entonces ya no habría necesidad de seguir disparando Genkidamas.
+\end{itemize}
 
 \subsection{Ejemplos}
 
@@ -110,25 +127,8 @@ De vuelta se comienza queriendo destruir al objetivo en A. Como se ve en la Figu
 \end{figure}
 
 \newpage
-\subsection{Ideas para desarrollar el algoritmo}
-
-Definamos el área de impacto como
-\begin{gather*}
-\textrm{A}:\mathbb{N_{0}}^2 \times \mathbb{N} \rightarrow \mathbb{Z^2}\\
- \mathbf{A}(P,T) = \{ (x, y) \in \mathbb{Z^2} : 0 \leq x \leq P_{x}+T ~ \wedge ~ 0 \leq y \leq P_{y}+T \}
-\end{gather*}
- es decir, el conjunto de puntos del plano en los que en caso de haber androides estos morirían por la Gendikama tirada en P. Con esta idea de área de impacto se puede pensar que no aporta tener en cuenta el área por sobre el objetivo vivo de mayor coordenada en y.
-Va a haber que eliminar al objetivo situado en A. Se puede tirar una Gendikama al punto A, pero surge la pregunta de si se podría hacer algo mejor. ¿Qué pasa si se dispara a B? Si $ A_{y} \leq B_{y}+T$ entonces el área de impacto A(B,T) incluye al punto A. Así, sería mejor disparar la Gendikama a B que a A dado que como  $A_{x} < B_{x}$ entonces  $A_{x}+T < B_{x}+T$, lo que nos da una idea intuitiva de inclusión de áreas, $A(A,T) \subset A(B,T)$ (nótese que la inclusión es estricta) y podemos decir que diparar a B es más destructivo.
-Así, volvemos a preguntarnos: ¿Qué pasa si se dispara a C? ¿Esto también mataría a A?
-Si sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y podemos tener dos situaciones:
-
-\begin{itemize}
-\item[•] Recorrer hasta el último punto y que una Gendikama lanzada ahí también elimine al androide situado en A, necesitando sólo un disparo para destruir a todos.
-\item[•] Recorrer hasta eventualmente encontrar un androide posicionado en un punto $K$ al que si se lanzara una Gendikama ésta no matara al androide en A. En este caso habría que disparar al androide situado en la posición con la coordenada $y$ inmediatamente anterior a la de $K$, llamémoslo J, y calcular $J_{x}+T$ para ver cuál sería el objetivo de mayor coordenada $y$ que quedara vivo  y repetir el proceso como si este fuera el nuevo $A$. Si no quedara ningún objetivo por eliminar entonces ya no habría necesidad de seguir disparando Gendikamas.
-\end{itemize}
-
 \subsection{Pseudocódigo}
-\begin{algorithm}
+\begin{algorithm}[h!]
 \caption{IndiceDeMenorYQueLoMata}
 \begin{algorithmic}
   \Function{IndiceDeMenorYQueLoMata}{t: int, indiceDeObjetivo: int, e: $Arreglo<Tupla<int,int>>$} $\to j$ : \texttt{int}
@@ -192,17 +192,15 @@ Si sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y
 	\EndWhile
 \EndFunction
 \end{algorithmic}
-\underline{Complejidad:} $\mathcal{O}(indiceDeObjetivo)$\\
+\underline{Complejidad:} $\mathcal{O}(n)$\\
+\\
+\underline{Justificación:} Como se puede ver en el pseudocódigo y se explica en la sección $"$Ideas para desarrollar el algoritmo$"$ se recorren todos los puntos ordenados, de mayor a menor coordenada $y$, una vez, ya sea para encontrar a que enemigo atacar o para ver cuales murieron en el último ataque.\\
+Cuando se busca un enemigo a atacar, se verifica que al atacarlo se maten todos los anteriores, así al lanzar una Genkidama sabemos que todos los enemigos por los que ya iteramos estarán muertos y solo queda ver cuales de los siguentes al enemigo atacado tambíen muerieron. Esto se logra iterando por los enemigos subsiguientes al atacado hasta encontrar el primero al que la Genkidama no mató y con él se vuelve a comenzar el proceso. Se puede ver claramente que se itera por todos los enemigos y que se hace solo una vez haciendo que la complejidad sea $\mathcal{O}(n)$ siendo $n$ la cantidad de enemigos.
     
 \end{algorithm}
 
 \newpage
-
-\subsection{Cota de complejidad}
-Como se puede ver en el pseudocódigo y se explica en la sección "Ideas para desarrollar el algoritmo" se recorren todos los puntos ordenados, de mayor a menor coordenada $y$, una vez, ya sea para encontrar a que enemigo atacar o para ver cuales murieron en el último ataque.\\
-Cuando se busca un enemigo a atacar, se verifica que al atacarlo se maten todos los anteriores, así al lanzar una Genkidama sabemos que todos los enemigos por los que ya iteramos estarán muertos y solo queda ver cuales de los siguentes al enemigo atacado tambíen muerieron. Esto se logra iterando por los enemigos subsiguientes al atacado hasta encontrar el primero al que la Genkidama no mató y con él se vuelve a comenzar el proceso. Se puede ver claramente que se itera por todos los enemigos y que se hace solo una vez haciendo que la complejidad sea $\mathcal{O}(n)$ siendo $n$ la cantidad de enemigos.
-
-\subsection{Experimentacion}
+\subsection{Experimentación}
 \begin{verbatim}
 
 

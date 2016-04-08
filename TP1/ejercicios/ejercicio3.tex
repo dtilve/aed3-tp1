@@ -35,28 +35,28 @@
 
 \section{Kamehameha}
 
-\subsection{Descripcion del problema}
+\subsection{Descripción del problema}
 
-El problema consiste en calcular la mínima cantidad de Kamehamehas que debe lanzar Goku para destruir un cunjunto de andriodes usando Backtracking.
-Al usar backtracking, el problema se reduce a trazar todas las posibles rectas que pasan una sola vez por cada punto y elegir la combinación con menor cantidad de rectas. Por ejemplo, si hay 5 androides en las siguientes posiciones
+El problema consiste en calcular la mínima cantidad de Kamehamehas que debe lanzar Goku para destruir un conjunto de andriodes usando Backtracking.
+Al usar backtracking, el problema se reduce a trazar todas las posibles rectas que pasan una sola vez por cada punto y elegir la combinación con menor cantidad de rectas. En el siguiente gráfico se muestra un ejemplo con 5 androides en las siguientes posiciones
 1 (1,2) 2 (2,1) 3 (3,2) 4 (4,2) 5 (3,3)
-Como muestra el siguiente gráfico
 \begin{figure}[h!]
   \centering
   \includegraphics[width=7cm, height=6cm]{ejemploHame1}
-  \caption{Puntos distribuidos inicialmente.}
+  \caption{Solución para un caso con 5 androides.}
 \end{figure}
 
-Una posible solución óptima sería lanzar 2 Kamehameha, 1 que mate a 3 androides (al 1, 3 y 4), la recta verde, y otro que mate a los otros 2, la recta azul.
+Una posible solución óptima sería lanzar dos Kamehameha, uno que mate a 3 androides (al 1, 3 y 4), la recta verde, y otro que mate a los otros 2, la recta azul. En este caso la solución es única.
 
 \subsection{Descripción de la resolución}
-La idea del algoritmo es que recursivamente vaya creando todas las combinaciones de rectas. Esto lo logramos utilizando una función principal, Kamehameha, a la que recurrimos y 2 funciones, una que se fija si un androide puede ser atacado con un Kamehameha ya lanzado (si esta alineado con algun con algun otro grupo de androides ya atacados) y vuelve a llamar a la función principal con los nuevos valores una vez por cada grupo con el que esta alineado este androide y otra función que comienza un nuevo ataque con ese androide y vuelve a llamar a la función principal. De esta forma, probando con un enemigo, volviendo atras, probando con el siguiente, volviendo atras y asi sucesivamente hasta probar con todos los enemigos, podemos generar todas las posibles combinaciones de líneas. Lo único que resta es verificar cual de estas es la óptima. Para conseguirlo, cada vez que generamos una solución completa, verificamos su tamaño (su acantidad de líneas) y la guardamos si es la menor hasta el momento, sino la descartamos.
-Para mejorar el tiempo de ejecución decidimos agregar un a poda que descarta soluciones que estan siendo generadas en el momento que su tamaño supera el tamaño de la solución minima alamacenada, ya que sabemos que si o si es mayor o igual a la que ya tenemos, por lo tanto no nos sirve.
+La idea del algoritmo es que recursivamente vaya creando todas las combinaciones de rectas. Esto lo logramos utilizando una función principal a la que llamamos recursivamente, Kamehameha,  y dos funciones, una que se fija si un androide puede ser atacado con un Kamehameha ya lanzado (si está alineado con algún otro grupo de androides ya atacados) y vuelve a llamar a la función principal con los nuevos valores una vez por cada grupo con el que está alineado este androide; y otra función que comienza un nuevo ataque con ese androide y vuelve a llamar a la función principal.
+\par{De esta forma, probando con un enemigo, volviendo atrás, probando con el siguiente, volviendo atrás y así sucesivamente hasta probar con todos los enemigos, podemos generar todas las posibles combinaciones de líneas. Lo único que resta es verificar cuál de estas es la óptima. Para conseguirlo, cada vez que generamos una solución completa, verificamos su tamaño (su cantidad de líneas) y la guardamos si es la menor hasta el momento, si no la descartamos.}
+\par{Para mejorar el tiempo de ejecución decidimos agregar una poda que descarta soluciones que están siendo generadas en el momento que su tamaño supera el tamaño de la solución mínima alamacenada, ya que sabemos que es mayor o igual a la que ya tenemos y por lo tanto no nos sirve.}
 
 \subsection{Cota de complejidad}
 Sabemos que la cantidad de posibles soluciones para una entrada de $n$ androides es $n!$ ya que es la cantidad de posibles combinaciones de androides. Por lo tanto, la cantidad de hojas de nuestro árbol de recursión, es decir la cantidad de soluciones posibles, esta acotada por $n!$ ya que no se llega a la misma solución más de una vez.
 
-Por como planteamos la resolución del poroblema, por cada solución que generamos, volvemos atras y reutilizamos lo ya calculado para generar todas las posibles, de esta forma el árbol las hojas hojas de nuestro árbol tienen siempre al menos un hermano. Suponiendo el peor caso, donde cada hoja tiene solamente un hermano, como cada sub solución es una solucion posible de un problema de menor tamaño, podemos asumir que todo nodo tiene soloamente un hermano, convirtiendo a nuestro árbol de recursión en un árbol binario. Teniendo $n!$ hojas y siendo la cantidad total de nodos $= (($\#$hojas)*2 - 1)$ nos da que la cantidad de nodos es del orden de $2*n!$ por lo tanto la complejidad del algoritmo termina siendo $\mathcal{O}(n!)$.
+Por cómo planteamos la resolución del problema, por cada solución que generamos, volvemos atrás y reutilizamos lo ya calculado para generar todas las posibles. De esta forma las hojas de nuestro árbol tienen siempre al menos un hermano. Suponiendo el peor caso, donde cada hoja tiene solamente un hermano, como cada sub solución es una solución posible de un problema de menor tamaño, podemos asumir que todo nodo tiene solamente un hermano, convirtiendo a nuestro árbol de recursión en un árbol binario. Teniendo $n!$ hojas y siendo la cantidad total de nodos $= (($\#$hojas)*2 - 1)$ nos da que la cantidad de nodos es del orden de $2*n!$ por lo tanto la complejidad del algoritmo termina siendo $\mathcal{O}(n!)$.
 
 \subsection{Pseudocódigo}
 listaPos $= lista<(int,int)>$ , kamehamehas $= lista<(listaPos)>$
@@ -89,23 +89,24 @@ listaPos $= lista<(int,int)>$ , kamehamehas $= lista<(listaPos)>$
 \begin{algorithm}
 \caption{AtacarEnAtacados}
 \begin{algorithmic}
-  \Function{AtacarEnAtacados}{$enemigo$: posicion, $restoEnemigos$: listaPos, $ataques$: Kamehamehas, $nroAtaque$: int}
+  \Function{AtacarEnAtacados}{$enemigo$: posición, $restoEnemigos$: listaPos, $ataques$: Kamehamehas, $nroAtaques$: int}
 \State $i \gets 0$ \Comment $\mathcal{O}(1)$
-\While{$i \leq nroAtque$} \Comment $\mathcal{O}(nroAtaques)$
-	\State $atacados \gets ataques[i]$ \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
-	\If{size($atacados$) $=$ $0$} \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
-		\State $comenzarAtaque \gets $nuevaListaPos() \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
-		\State pushBack($enemigo, comenzarAtque$) \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
-		\State $ataque[i] \gets 	comenzarAtaque$ \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
-		\State Kamehameha($restoEnemigos$, $ataques$, $nroAtaques$) \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
-		\State $restablecerAtaque \gets $nuevaListaPos() \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
-		\State $ataque[i] \gets 	restablecerAtaque$ \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
-	\ElsIf{Alineados($atacados$, $enemigo$)} \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
-		\State pushBack($enemigo$, $ataque[i]$) \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
-		\State Kamehameha($restoEnemigos$, $ataques$, $nroAtaques$) \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
-		\State popBack($ataque[i]$) \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+\State $atacados \gets nuevaListaPos()$ \Comment $\mathcal{O}(1)$
+\While{$i \leq nroAtaques$} \Comment $\mathcal{O}(nroAtaques)$
+	\State $atacados \gets ataques[i]$ \Comment $\mathcal{O}(1)$
+	\If{size($atacados$) $=$ $0$} \Comment $\mathcal{O}(1)$
+		\State $comenzarAtaque \gets $nuevaListaPos() \Comment $\mathcal{O}(1)$
+		\State pushBack($enemigo, comenzarAtaque$) \Comment $\mathcal{O}(1)$
+		\State $ataque[i] \gets 	comenzarAtaque$ \Comment $\mathcal{O}(1)$
+		\State Kamehameha($restoEnemigos$, $ataques$, $nroAtaques$) \Comment $\mathcal{O}(1)$
+		\State $restablecerAtaque \gets $nuevaListaPos() \Comment $\mathcal{O}(1)$
+		\State $ataque[i] \gets 	restablecerAtaque$ \Comment $\mathcal{O}(1)$
+	\ElsIf{Alineados($atacados$, $enemigo$)} \Comment $\mathcal{O}(1)$
+		\State pushBack($enemigo$, $ataque[i]$) \Comment $\mathcal{O}(1)$
+		\State Kamehameha($restoEnemigos$, $ataques$, $nroAtaques$) \Comment $\mathcal{O}(1)$
+		\State popBack($ataque[i]$) \Comment $\mathcal{O}(1)$
 	\EndIf
-	\State $i \gets i + 1$ \Comment $\mathcal{O}(1) * \mathcal{O}(nroAtaques)$
+	\State $i \gets i + 1$ \Comment $\mathcal{O}(1)$
 \EndWhile
 \EndFunction
 \end{algorithmic}
@@ -309,22 +310,29 @@ int buscarPosicion(const posicion_t& enemigo) {
 \end{lstlisting}
 
 \subsection{Experimentacion}
-\begin{verbatim}
-Experimentando con el algoritmo, nos dimos cuenta que el tiempo de ejecusion, variaba un poco dependiendo de el momento particular en el que la realizabamos, ya sea por la distribucion de los puntos o por el funcionamiento de la maquina. Es por esto que decidimos ejecutarlo 5 veces para cada grupo de n puntos y tomar al promedio de los mismos como una referencia mas exacta. Lo hicimos con n=1 a 10. 
+Experimentando con el algoritmo nos dimos cuenta de que el tiempo de ejecución variaba un poco dependiendo del momento particular en que se corriera el programa, de la distribución de los puntos o del funcionamiento de la máquina. Es por esto que decidimos ejecutarlo 5 veces para cada grupo de n puntos y tomar al promedio de los mismos como una referencia más confiable. Lo hicimos con $n=1$ a $10$. 
+\\
+\begin{table}[h]
+\centering
+\label{my-label}
+\begin{tabular}{cc}
+\hline
+\multicolumn{1}{|c|}{n (Tamaño de la entrada)} & \multicolumn{1}{c|}{Tiempo (segundos)} \\ \hline
+\multicolumn{1}{|c|}{1}                        & \multicolumn{1}{c|}{$2.78 \times 10^{-5}$}         \\ \hline
+\multicolumn{1}{|c|}{2}                        & \multicolumn{1}{c|}{$3.02 \times 10^{-5}$}            \\ \hline
+\multicolumn{1}{|c|}{3}                        & \multicolumn{1}{c|}{$4.30 \times 10^{-5}$}               \\ \hline
+\multicolumn{1}{|c|}{4}                        & \multicolumn{1}{c|}{$5.54 \times 10^{-5}$}            \\ \hline
+\multicolumn{1}{|c|}{5}                        & \multicolumn{1}{c|}               {$1.43 \times 10^{-4}$}  \\ \hline
+\multicolumn{1}{|c|}{6}                        & \multicolumn{1}{c|}                  {$1.58 \times 10^{-4}$}  \\ \hline
+\multicolumn{1}{|c|}{7}                        & \multicolumn{1}{c|}                  {$6.88 \times 10^{-4}$}  \\ \hline
+\multicolumn{1}{|c|}{8}                        & \multicolumn{1}{c|}                  {$9.09 \times 10^{-4}$}  \\ \hline
+\multicolumn{1}{|c|}{9}                        & \multicolumn{1}{c|}                  {$3.31 \times 10^{-3}$}  \\ \hline
+\multicolumn{1}{|c|}{10}                        & \multicolumn{1}{c|}                  {$4.38 \times 10^{-3}$}  \\ \hline
 
-n=1;	0,0000278
-n=2;	0,0000302
-n=3;	0,000043
-n=4;	0,0000554
-n=5;	0,000143
-n=6;	0,000158
-n=7;	0.0006878
-n=8;	0.0009092
-n=9;	0.0033126
-n=10;	0.004376
+\end{tabular}
+\caption{Tabla que muestra los tiempos de ejecución correspondientes a distintos tamaños de entrada.}
+\end{table}
 
-Gafico que representa este experimento:
-
-\end{verbatim}
+Gráfico que representa este experimento:
 
 \end{document}
