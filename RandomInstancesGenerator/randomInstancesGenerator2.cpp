@@ -1,4 +1,4 @@
-#include <randomInstancesGenerator2.h>
+#include "randomInstancesGenerator2.h"
 
 int main() {
     int n;
