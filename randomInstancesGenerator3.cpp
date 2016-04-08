@@ -1,14 +1,4 @@
-#include <stdio.h>      /* stdin, stdout */
-#include <fstream>      /* basic file operations */
-#include <iostream>
-#include <stdlib.h>     /* srand, rand */
-#include <string>
-#include <time.h>       /* time */
-#include <math.h>
-using namespace std;
-
-// random tuple generator
-void randomInstanceGenerator(int s, int n, ofstream &file);
+#include <randomInstancesGenerator3.h>
 
 int main() {
     int n, s;
@@ -31,21 +21,21 @@ void randomInstanceGenerator(int s, int n, ofstream &file) {
     srand(time(NULL));
     file << n << endl;
     if (s == 0) {
-        // worst case - take two at most
+        // worst case scenario - completly unaligned
         for (int i = 0; i < n; i++) {
             int x = i;
             int y = pow(2,x);
             file << to_string(x) << " " << to_string(y) << endl;
         }
     } else if (s == 1) {
-        // best case - aligned
+        // best case scenario - aligned
         int y = 1;
         for (int i = 0; i < n; i++) {
             int x = i;
             file << to_string(x) << " " << to_string(y) << endl;
         }
     } else {
-        // random seed
+        // random case scenario
         for (int i = 0; i < n; i++) {
             int x = rand() %1000;
             int y = rand() %1000;
