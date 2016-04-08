@@ -11,7 +11,7 @@ using namespace std;
 typedef vector<pair<int, int> > positionVector_t;
 
 // Generates and prints on a new file a random generated instances
-void randomInstanceGenerator(int n, ofstream &file);
+void randomInstancePrinter(int n, ofstream &file);
 // Generates a vector of randomized pairs
 positionVector_t randomInstanceGenerator(int n);
 // Generates pairs
