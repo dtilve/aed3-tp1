@@ -201,10 +201,11 @@ Cuando se busca un enemigo a atacar, se verifica que al atacarlo se maten todos 
 \end{algorithm}
 
 \subsection{Análisis de complejidad}
-Como ya se ha explicado, el algoritmo Genkidama tiene complejidad temporal $\mathcal{O}(n)$, pero también podemos afirmar que tiene complejidad temporal $\mathcal{\theta}(n)$ porque para cada androide chequea o  bien si la genkidama tirada en esa ubicación mata a otro o bien si su ubicación es alcanzada por otra explosión. Esto da una cantidad de chequeos de al menos n pues hay n androides.
+
+\par{Como ya se ha explicado, el algoritmo Genkidama tiene complejidad temporal $\mathcal{O}(n)$, pero también podemos afirmar que tiene complejidad temporal $\mathcal{\theta}(n)$ porque el algoritmo recorre al conjunto de asteroides de cardinal n, que son los valores que va a tomar indiceObjetivo, tomandolos de a t. No repite calculos. IndiceObjetivoPorArea corresponde a un subconjunto de objetivoPorArea, los que seran eliminados por el mismo Genkidama. Que como los diferentes conjuntos objetivosPorArea son disjuntos, tampoco no se solapan calculos.}
+%para cada androide chequea o  bien si la genkidama tirada en esa ubicación mata a otro o bien si su ubicación es alcanzada por otra explosión. Esto da una cantidad de chequeos de al menos n pues hay n androides.
 \par{El mejor caso se tiene cuando todos los androides mueren con una sola genkidama utilizada pues luego de fijar un objetivo sólo se realiza un chequeo para cada uno de los $n-1$ androides.}
 \par{El peor caso se tiene cuando para matar a cada androide se requiere una genkidama distinta y por tanto se hacen dos chequeos para destruir cada uno de los $n-1$ androides.}
-
 \newpage
 \subsection{Experimentación}
 Para la experimentación medimos los tiempos de ejecución para distintos tamaños de entrada y lo hicimos varias veces para cada tamaño de entrada para tener resultados más confiables. Este proceso lo realizamos para las situaciones que creíamos que daban lugar a mejor y peor caso y verificamos que efectivamente eran las situaciones que pensábamos.
