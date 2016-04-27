@@ -44,11 +44,11 @@ Tenemos androides ubicados en una secuencia de puntos $(x,y)$ en el espacio para
 
 Definamos el área de impacto como
 \begin{gather*}
-\textrm{A}:\mathbb{N_{0}}^2 \times \mathbb{N} \rightarrow \mathbb{Z^2}\\
- \textrm{A}(P,T) = \{ (x, y) \in \mathbb{Z^2} : 0 \leq x \leq P_{x}+T ~ \wedge ~ 0 \leq y \leq P_{y}+T \}
+\textrm{Area}:\mathbb{N_{0}}^2 \times \mathbb{N} \rightarrow \mathbb{Z^2}\\
+ \textrm{Area}(P,T) = \{ (x, y) \in \mathbb{Z^2} : 0 \leq x \leq P_{x}+T ~ \wedge ~ 0 \leq y \leq P_{y}+T \}
 \end{gather*}
  es decir, el conjunto de puntos del plano en los que en caso de haber androides estos morirían por la Gendikama tirada en P. Con esta idea de área de impacto se puede pensar que no aporta tener en cuenta el área por sobre el objetivo vivo de mayor coordenada en y.
-\par{Va a haber que eliminar al objetivo situado en A. Se puede tirar una Gendikama al punto A, pero surge la pregunta de si se podría hacer algo mejor. ¿Qué pasa si se dispara a B? Si $ A_{y} \leq B_{y}+T$ entonces el área de impacto A(B,T) incluye al punto A. Así, sería mejor disparar la Gendikama a B que a A dado que como  $A_{x} < B_{x}$ entonces  $A_{x}+T < B_{x}+T$, lo que nos da una idea intuitiva de inclusión de áreas, $A(A,T) \subset A(B,T)$ (nótese que la inclusión es estricta) y podemos decir que diparar a B es más destructivo.}
+\par{Va a haber que eliminar al objetivo situado en A. Se puede tirar una Gendikama al punto A, pero surge la pregunta de si se podría hacer algo mejor. ¿Qué pasa si se dispara a B? Si $ A_{y} \leq B_{y}+T$ entonces el área de impacto Area(B,T) incluye al punto A. Así, sería mejor disparar la Gendikama a B que a A dado que como  $A_{x} < B_{x}$ entonces  $A_{x}+T < B_{x}+T$, lo que nos da una idea intuitiva de inclusión de áreas, $Area(A,T) \subset Area(B,T)$ (nótese que la inclusión es estricta) y podemos decir que diparar a B es más destructivo.}
 \par{Así, volvemos a preguntarnos: ¿Qué pasa si se dispara a C? ¿Esto también mataría a A?}
 \par{Supongamos que sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y podemos tener dos situaciones:}
 
