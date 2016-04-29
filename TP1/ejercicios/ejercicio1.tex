@@ -116,17 +116,29 @@ Realizamos la medición del tiempo de ejecución de la parte del código que cal
 \label{my-label}
 \begin{tabular}{cc}
 \hline
-\multicolumn{1}{|c|}{n (Tamaño de la entrada)} & \multicolumn{1}{c|}{Tiempo (segundos)}                                                                                                                                    \\ \hline
-\multicolumn{1}{|c|}{1}                        & \multicolumn{1}{c|}{$1 \times 10^{-6}$}                                                                                                                                     \\ \hline
-\multicolumn{1}{|c|}{10}                       & \multicolumn{1}{c|}{$3 \times 10^{-6}$}                                                                                                                                     \\ \hline
-\multicolumn{1}{|c|}{100}                      & \multicolumn{1}{c|}{$7 \times 10^{-6}$}                                                                                                                                     \\ \hline
-\multicolumn{1}{|c|}{1000}                     & \multicolumn{1}{c|}{$5.6 \times 10^{-5}$}                                                                                                                                   \\ \hline
-\multicolumn{1}{|c|}{10000}                    & \multicolumn{1}{c|}{$7 \times 10^{-4}$}                                                                                                                                  \\ \hline
-\multicolumn{1}{|c|}{100000}                   & \multicolumn{1}{c|}{$1.45 \times 10^{-2}$}                                                                                                                                  \\ \hline
-\multicolumn{1}{|c|}{1000000}                  & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}seg fault: este tamaño de entrada\\ supera la capacidad de la memoria\\ para ejecutar el programa\end{tabular}} \\ \hline
-                                                                                                                                          
+\multicolumn{1}{|c|}{n (Tamaño de la entrada)} & \multicolumn{1}{c|}{Tiempo promedio (nanosegundos)}                                                                                                                                    \\ \hline
+\multicolumn{1}{|c|}{10000}                        & \multicolumn{1}{c|}{1689}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{15000}                        & \multicolumn{1}{c|}{1889}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{20000}                        & \multicolumn{1}{c|}{3051}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{25000}                        & \multicolumn{1}{c|}{3616}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{30000}                        & \multicolumn{1}{c|}{3794}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{35000}                        & \multicolumn{1}{c|}{5612}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{40000}                        & \multicolumn{1}{c|}{5735}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{45000}                        & \multicolumn{1}{c|}{6550}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{50000}                        & \multicolumn{1}{c|}{5798}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{55000}                        & \multicolumn{1}{c|}{9041$}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{60000}                        & \multicolumn{1}{c|}{8217}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{65000}                        & \multicolumn{1}{c|}{9236}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{70000}                        & \multicolumn{1}{c|}{8781}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{75000}                        & \multicolumn{1}{c|}{8025}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{80000}                        & \multicolumn{1}{c|}{8841}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{85000}                        & \multicolumn{1}{c|}{12973}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{90000}                        & \multicolumn{1}{c|}{16051}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{95000}                        & \multicolumn{1}{c|}{17312}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{100000}                        & \multicolumn{1}{c|}{18256}                                                                                                                                     \\ \hline
+\multicolumn{1}{|c|}{100000}                  & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}seg fault: este tamaño de entrada\\ supera la capacidad de la memoria\\ para ejecutar el programa\end{tabular}} \\ \hline
 \end{tabular}
-\caption{Tabla que muestra los tiempos de ejecución correspondientes a distintos tamaños de entrada.}
+\caption{Tabla que muestra los tiempos de ejecución promedio correspondientes a distintos tamaños de entrada.}
 \end{table}
 
 El gráfico asociado a este experimento es:
