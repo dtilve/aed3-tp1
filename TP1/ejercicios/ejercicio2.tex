@@ -34,7 +34,7 @@ Definamos el área de impacto como
  \textrm{A}(P,T) = \{ (x, y) \in \mathbb{Z^2} : 0 \leq x \leq P_{x}+T ~ \wedge ~ 0 \leq y \leq P_{y}+T \}
 \end{gather*}
  es decir, el conjunto de puntos del plano en los que en caso de haber androides estos morirían por la Gendikama tirada en P. Con esta idea de área de impacto se puede pensar que no aporta tener en cuenta el área por sobre el objetivo vivo de mayor coordenada en y.
-\par{Va a haber que eliminar al objetivo situado en A. Se puede tirar una Gendikama al punto A, pero surge la pregunta de si se podría hacer algo mejor. ¿Qué pasa si se dispara a B? Si $ A_{y} \leq B_{y}+T$ entonces el área de impacto A(B,T) incluye al punto A. Así, sería mejor disparar la Gendikama a B que a A dado que como  $A_{x} < B_{x}$ entonces  $A_{x}+T < B_{x}+T$, lo que nos da una idea intuitiva de inclusión de áreas, $A(A,T) \subset A(B,T)$ (nótese que la inclusión es estricta) y podemos decir que diparar a B es más destructivo.}
+\par{Supongamos que tenemos un conjunto  de androides situados en los puntos A, B, C, ... con $A_{y} > B_{y} > C_{y} > ...$ y $A_{x} < B_{x} < C_{x} < ...$. Va a haber que eliminar al objetivo situado en A. Se puede tirar una Gendikama al punto A, pero surge la pregunta de si se podría hacer algo mejor. ¿Qué pasa si se dispara a B? Si $ A_{y} \leq B_{y}+T$ entonces el área de impacto A(B,T) incluye al punto A. Así, sería mejor disparar la Gendikama a B que a A dado que como  $A_{x} < B_{x}$ entonces  $A_{x}+T < B_{x}+T$, lo que nos da una idea intuitiva de inclusión de áreas, $A(A,T) \subset A(B,T)$ (nótese que la inclusión es estricta) y podemos decir que diparar a B es más destructivo.}
 \par{Así, volvemos a preguntarnos: ¿Qué pasa si se dispara a C? ¿Esto también mataría a A?}
 \par{Supongamos que sí, seguimos preguntándonos por el siguiente punto de menor coordenada y, y podemos tener dos situaciones:}
 
@@ -50,7 +50,7 @@ Definamos el área de impacto como
 Supongamos que tenemos los puntos mostrados en la Figura 1 y $T = 1$.
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=7cm, height=5.5cm]{EjemploInicialUtil}
+  \includegraphics[width=7cm, height=5cm]{EjemploInicialUtil}
   \caption{Puntos distribuidos inicialmente.}
 \end{figure}
 
@@ -90,7 +90,7 @@ De vuelta se comienza queriendo destruir al objetivo en A. Como se ve en la Figu
 \par{Finalmente queda la situación mostrada en la Figura 7 en la que el objetivo es destruir al objetivo de E y se terminará disparando a F eliminando a los dos androides restantes.}
 \par{En este caso se habrá destruido a todos los androides utilizando dos genkidamas.}\\
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
 \begin{minipage}{.5\textwidth}
   \centering
@@ -158,14 +158,15 @@ De vuelta se comienza queriendo destruir al objetivo en A. Como se ve en la Figu
 	\State $int ~indiceDeObjetivoPorArea \gets n - 1$ \Comment $\mathcal{O}(1)$
 	\State $ //~el~ de~ arriba~ es~ aquel~ al~ que~ quiero~ que~ le~ llegue~ la~ onda~ expansiva$
 	\State $bool ~hayAlgunoVivo \gets true$ \Comment $\mathcal{O}(1)$
-	\While{$hayAlgunoVivo$} \Comment $\mathcal{O}(indiceDeObjetivo)$
+	\While{$hayAlgunoVivo$} \Comment $\mathcal{O}(menorY)$
 		\State $ 	//~el~ de~ abajo ~es~ aquel~ al~ que~ le~ voy~ a ~tirar~ la~ bomba$
-		\State $int~indiceDeMenorYQueLoMata(t, indiceDeObjetivoPorArea, e)$ \Comment $\mathcal{O}(indiceDeObjetivoPorArea)$
+		\State $int~menorY \gets indiceDeMenorYQueLoMata(t, indiceDeObjetivoPorArea, e)$ \Comment $\mathcal{O}(indiceDeObjetivoPorArea)$
 		\State $agregarAtras(atacados, indiceDeObjetivo + 1)$ \Comment $\mathcal{O}(1)$
 		\State $		//~el +1 ~de~ arriba~ surge~ de~ que~ en~ el~ enunciado ~se~ enumeran~ desde~ el~ 1 ~$
 		\State $	   y~ nosotros~ enumeramos~ desde~ 0$
-		\State $hayAlgunoVivo \gets \neg(indiceDeMayorXQueMata(t, indiceDeObjetivo, e) == 0)$ \Comment $\mathcal{O}(indiceDeObjetivo)$
-		\State $indiceDeObjetivoPorArea \gets indiceDeMayorXQueMata(t, indiceDeObjetivo, e) - 1$ \Comment $\mathcal{O}(indiceDeObjetivo)$
+		\State  $int~indiceDeMayorXMatado \gets indiceDeMayorXQueMata(t, menorY, e)$ \Comment $\mathcal{O}(menorY)$
+		\State $hayAlgunoVivo \gets \neg(indiceDeMayorXMatado == 0)$ \Comment $\mathcal{O}(1)$
+		\State $indiceDeObjetivoPorArea \gets indiceDeMayorXMatado - 1$ \Comment $\mathcal{O}(1)$
 		\State genkidamasUtilizadas++ \Comment $\mathcal{O}(1)$
 	\EndWhile
 	\State $imprimir ~genkidamasUtilizadas$
@@ -181,10 +182,63 @@ De vuelta se comienza queriendo destruir al objetivo en A. Como se ve en la Figu
 \end{algorithmic}
 \underline{Complejidad:} $\mathcal{O}(n)$\\
 \\
-\underline{Justificación:} Como se puede ver en el pseudocódigo y se explica en la sección $"$Ideas para desarrollar el algoritmo$"$ se recorren todos los puntos ordenados, de mayor a menor coordenada $y$, una vez, ya sea para encontrar a que enemigo atacar o para ver cuales murieron en el último ataque.\\
+\underline{Justificación:} 
+\end{algorithm}
+
+\par{Teniendo en cuenta que\\
+\begin{itemize}
+\item[•]$int~menorY \gets indiceDeMenorYQueLoMata(t, indiceDeObjetivoPorArea, e)$ es $\mathcal{O}(indiceDeObjetivoPorArea - menorY + 1)$
+\item[•]$int~indiceDeMayorXMatado \gets indiceDeMayorXQueMata(t, indiceDeObjetivo, e)$  es $\mathcal{O}(indiceDeObjetivo - indiceDeMayorXMatado + 1)$
+\item[•] y que si notamos\\
+$indiceDeObjetivoPorArea_{i}$ a indiceDeObjetivoPorArea al comienzo de la iteración i,\\
+$indiceDeMayorXMatado_{i}$ a indiceDeMayorXMatado luego de la asignación realizada en la iteración i,\\
+$menorY_{i}$ a menorY luego de la asignación realizada en la iteración i,
+\\entonces se tiene
+\begin{equation}
+indiceDeObjetivoPorArea_{i+1} = indiceDeMayorXMatado_{i} - 1
+\end{equation}
+\end{itemize}
+el cálculo de la complejidad se simplifica.}\\
+\par{
+Cada iteración i tiene complejidad
+\begin{multline}
+\mathcal{O}(indiceDeObjetivoPorArea_{i} - menorY_{i} + 1) + \mathcal{O}(menorY_{i} - indiceDeMayorXMatado_{i} + 1)
+\\
+= \mathcal{O}(indiceDeObjetivoPorArea_{i} - indiceDeMayorXMatado_{i} + 2)
+\end{multline}
+Para la primera iteración se tiene \\
+\begin{equation}
+indiceDeObjetivoPorArea_{1} = n-1
+\end{equation}
+y para la $\acute{u}$ltima se tiene \\
+\begin{equation}
+indiceDeMayorXMatado_{\#iteraciones} = 0
+\end{equation}
+Así, la complejidad total del algoritmo es la suma sobre las iteraciones de la complejidad para cada iteración:
+}
+
+\begin{multline}
+\sum\limits_{i=1}^{\#iteraciones} \mathcal{O}(indicePorArea_{i} - MayorXMatado_{i} + 2)
+\\
+= \mathcal{O}(indicePorArea_{1} - MayorXMatado_{1} + 2)
+\\ + \sum\limits_{i=2}^{\#iteraciones-1} \mathcal{O}(indicePorArea_{i} - MayorXMatado_{i} + 2)
+\\ + \mathcal{O}(indicePorArea_{\#iteraciones} - MayorXMatado_{\#iteraciones} + 2)
+\\
+= \mathcal{O}(n-1) + \sum\limits_{i=1}^{\#iteraciones-1} \mathcal{O}(- MayorXMatado_{i} + 2 + indicePorArea_{i+1}) + \mathcal{O}(0 + 2) 
+\\
+= \mathcal{O}(n) + \sum\limits_{i=1}^{\#iteraciones-1} \mathcal{O}(- MayorXMatado_{i} + 2 + (MayorXMatado_{i} - 1) )
+\\
+= \mathcal{O}(n) + \mathcal{O}(\#iteraciones-1) = \mathcal{O}(n) + \mathcal{O}(n)
+\\
+= \mathcal{O}(n)
+\end{multline}
+
+
+Como se puede ver en el pseudocódigo y se explica en la sección $"$Ideas para desarrollar el algoritmo$"$ se recorren todos los puntos ordenados, de mayor a menor coordenada $y$, una vez, ya sea para encontrar a que enemigo atacar o para ver cuales murieron en el último ataque.\\
 Cuando se busca un enemigo a atacar, se verifica que al atacarlo se maten todos los anteriores, así al lanzar una Genkidama sabemos que todos los enemigos por los que ya iteramos estarán muertos y solo queda ver cuales de los siguentes al enemigo atacado tambíen muerieron. Esto se logra iterando por los enemigos subsiguientes al atacado hasta encontrar el primero al que la Genkidama no mató y con él se vuelve a comenzar el proceso. Se puede ver claramente que se itera por todos los enemigos y que se hace solo una vez haciendo que la complejidad sea $\mathcal{O}(n)$ siendo $n$ la cantidad de enemigos.
     
-\end{algorithm}
+
+
 
 \subsection{Análisis de complejidad}
 Como ya se ha explicado, el algoritmo Genkidama tiene complejidad temporal $\mathcal{O}(n)$, pero también podemos afirmar que tiene complejidad temporal $\mathcal{\theta}(n)$ porque para cada androide chequea o  bien si la genkidama tirada en esa ubicación mata a otro o bien si su ubicación es alcanzada por otra explosión. Esto da una cantidad de chequeos de al menos n pues hay n androides.
@@ -223,13 +277,13 @@ Para la experimentación medimos los tiempos de ejecución para distintos tamañ
 \multicolumn{1}{|c|}{95000}                        & \multicolumn{1}{c|}{10662}         \\ \hline
 \multicolumn{1}{|c|}{100000}                        & \multicolumn{1}{c|}{11851}         \\ \hline
 \end{tabular}
-\caption{Tabla que muestra los tiempos de ejecución promedio correspondientes a distintos tamaños de entrada con "t" aleatorio entre cada rango de valores.}
+\caption{Tabla que muestra los tiempos de ejecución promedio correspondientes a distintos tamaños de entrada con T aleatorio entre cada rango de valores.}
 \end{table}
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=12cm, height=9cm]{GenkiTime}
-  \caption{Tiempos de ejecución para distintas entradas. La curva azul es la curva de la complejidad, $100n$ (la constante se incluyó para lograr mostrar claramente que efectivamente el algoritmo es $\mathcal{O}(n)$), la línea verde es mejor caso, la roja caso aleatorio y la amarilla peor caso.}
+  \includegraphics[width=12cm, height=9cm]{tiemposEj2Nuevos}
+  \caption{Tiempos de ejecución para distintas entradas. La curva azul es la curva de la complejidad, $0.3*n$ (la constante se incluyó para lograr mostrar claramente que efectivamente el algoritmo es $\mathcal{O}(n)$), la línea verde es mejor caso, la roja caso aleatorio y la amarilla peor caso.}
 \end{figure}
 
 \newpage

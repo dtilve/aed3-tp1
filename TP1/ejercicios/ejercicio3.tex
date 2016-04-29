@@ -41,7 +41,7 @@ La idea del algoritmo es que recursivamente vaya creando todas las combinaciones
 
 \subsection{Cota de complejidad}
 Como la cantidad de posibles combinaciones distitnas de $n$ andoides con $n$ androides distintos es análoga a la cantidad de números de $n$ digitos distintos que se pueden armar con $n$ números de un digito distintos, ya que el primer androide que tomemos, lo podemos dejar solo o juntarlo con cualquiera de los otros $n-1$ androides lo que le da $n$ posibles opciones. Una vez que el primero esta fijo, hacemos lo mismo con el segundo androide, puede quedarse donde está o juntarse con cualquiera de los otros $n-2$ androides que aún no tienen posición fija, lo que le da $n-1$ posibilidades. Luego hacemos lo mismo con el resto de los androides, cada uno tendra la cantidad de posibilidades que tenía el androide anterior $-1$, hasta llegar al último androide que queda con 1 sola posibilidad, quedarse dodne está. Así se puede ver que la cantidad todal de combinasciones es $n*(n-1)*(n-2)*...*(n-(n+2))*(n-(n+1))$ que da $n!$.
-Por lo tanto, la cantidad de hojas de nuestro árbol de recursión, es decir la cantidad de soluciones posibles, como no se llega a la misma solución más de una vez, está acotada por $n!$.
+\par{Por lo tanto, la cantidad de hojas de nuestro árbol de recursión, es decir la cantidad de soluciones posibles, como no se llega a la misma solución más de una vez, está acotada por $n!$.}
 
 Por cómo planteamos la resolución del problema, por cada solución que generamos, volvemos atrás y reutilizamos lo ya calculado para generar todas las posibles. De esta forma las hojas de nuestro árbol tienen siempre al menos un hermano. Suponiendo el peor caso, donde cada hoja tiene solamente un hermano, como cada sub solución es una solución posible de un problema de menor tamaño, podemos asumir que todo nodo tiene solamente un hermano, convirtiendo a nuestro árbol de recursión en un árbol binario. Teniendo $n!$ hojas y siendo la cantidad total de nodos $= (($\#$hojas)*2 - 1)$ nos da que la cantidad de nodos es del orden de $2*n!$ por lo tanto la complejidad del algoritmo termina siendo $\mathcal{O}(n!)$.
 
@@ -124,7 +124,7 @@ listaPos $= lista<(int,int)>$ , kamehamehas $= lista<(listaPos)>$
 \underline{Complejidad:} $\mathcal{O}(1)$\\
 \end{algorithm}
 
-\begin{algorithm}
+\begin{algorithm}[h!]
 \caption{Alineados}
 \begin{algorithmic}
   \Function{Alineados}{$atacados$: kamehameha, $enemigo$: posicion}{Bool} 
@@ -144,12 +144,12 @@ listaPos $= lista<(int,int)>$ , kamehamehas $= lista<(listaPos)>$
 \underline{Complejidad:} $\mathcal{O}(1)$\\
 \end{algorithm}
 
-
+\newpage
 \subsection{Experimentación}
 Experimentando con el algoritmo nos dimos cuenta de que el tiempo de ejecución variaba un poco dependiendo del momento particular en que se corriera el programa, de la distribución de los puntos o del funcionamiento de la máquina. Es por esto que decidimos ejecutarlo 5 veces para cada grupo de n puntos y tomar al promedio de los mismos como una referencia más confiable. Lo hicimos con $n=1$ a $10$. 
 \par{A continuación se exponen la tabla y el gráfico resultante de esas mediciones}
 \\
-\begin{table}[h]
+\begin{table}[h!]
 \centering
 \label{my-label}
 \begin{tabular}{cc}
@@ -172,7 +172,7 @@ Experimentando con el algoritmo nos dimos cuenta de que el tiempo de ejecución 
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=12cm, height=9cm]{HameTime}
+  \includegraphics[width=12cm, height=9cm]{tiemposEj3Nuevos}
   \caption{Tiempos de ejecución para distintas entradas. La curva azul es la curva de la complejidad, $n!$, la línea verde es mejor caso, la roja caso aleatorio y la amarilla peor caso.}
 \end{figure}
 
